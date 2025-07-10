@@ -5,12 +5,10 @@
 <div class="container mt-5">
     <h2 class="mb-4">Zonas Seguras Registradas</h2>
 
-    {{-- Botón Agregar --}}
     <a href="{{ route('ZonasSeguras.create') }}" class="btn btn-success mb-3">
         <i class="fas fa-plus-circle"></i> Nueva Zona Segura
     </a>
-
-    {{-- Botón Vista previa del reporte --}}
+   
     <a href="#" class="btn btn-primary mb-3">
         <i class="fas fa-map"></i> Vista previa del reporte
     </a>

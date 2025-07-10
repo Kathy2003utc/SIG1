@@ -3,14 +3,31 @@
 @section('contenido')
 <br>
 <h1 class="text-center">Listado de Riesgos</h1>
+
 <div class="container mt-4">
     <div class="mx-auto" style="max-width: 1000px;">
-        <div class="text-right">
-            <a href="{{ route('ZonasRiesgo.create') }}" class="btn btn-primary">
-                Agregar nuevo Riesgo
-            </a>
-        </div>
+        <<a href="{{ route('ZonasRiesgo.create') }}" class="btn btn-success mb-3">
+            <i class="fas fa-plus-circle"></i> Nueva Zona de riesgo
+        </a>
+    
+        <a href="#" class="btn btn-primary mb-3">
+            <i class="fas fa-map"></i> Vista previa del reporte
+        </a>
+
         <br>
+
+        {{-- Mensaje de éxito con SweetAlert --}}
+        @if(session('success'))
+            <script>
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Éxito!',
+                    text: '{{ session('success') }}',
+                    confirmButtonColor: '#10b981'
+                });
+            </script>
+        @endif
+
         <div class="table-responsive">
             <table class="table table-hover table-bordered align-middle">
                 <thead class="table-dark">
@@ -36,14 +53,17 @@
                         <td>Latitud: {{ $riesgo->latitud3 }}<br>Longitud: {{ $riesgo->longitud3 }}</td>
                         <td>Latitud: {{ $riesgo->latitud4 }}<br>Longitud: {{ $riesgo->longitud4 }}</td>
                         <td class="text-center">
-                            <a href="{{ route('riesgos.edit', $riesgo->id) }}" class="btn btn-sm btn-primary me-1">Editar</a>
+                            {{-- Botón Editar --}}
+                            <a href="{{ route('ZonasRiesgo.edit', $riesgo->id) }}" class="btn btn-sm btn-primary me-1">
+                                <i class="fas fa-edit"></i> Editar
+                            </a>
 
-                            <form action="{{ route('riesgos.destroy', $riesgo->id) }}" method="POST" class="d-inline">
+                            {{-- Botón Eliminar con SweetAlert --}}
+                            <form action="{{ route('ZonasRiesgo.destroy', $riesgo->id) }}" method="POST" class="d-inline eliminar-formulario">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger"
-                                    onclick="return confirm('¿Estás seguro de que deseas eliminar este riesgo?')">
-                                    Eliminar
+                                <button type="submit" class="btn btn-sm btn-danger">
+                                    <i class="fas fa-trash"></i> Eliminar
                                 </button>
                             </form>
                         </td>
@@ -58,4 +78,48 @@
         </div>
     </div>
 </div>
+
+{{-- Script de DataTable --}}
+<script>
+$(document).ready(function() {
+    let table = new DataTable('#zonas-table', {
+        language: {
+            url: 'https://cdn.datatables.net/plug-ins/2.3.1/i18n/es-ES.json'
+        },
+        dom: 'Bfrtip',
+        buttons: [
+            'copy',
+            'csv',
+            'excel',
+            'pdf',
+            'print'
+        ]
+    });
+});
+</script>
+
+{{-- Script SweetAlert para confirmar eliminación --}}
+<script>
+document.querySelectorAll('.eliminar-formulario').forEach(form => {
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: 'Esta acción no se puede deshacer.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                this.submit();
+            }
+        });
+    });
+});
+</script>
+
+
 @endsection

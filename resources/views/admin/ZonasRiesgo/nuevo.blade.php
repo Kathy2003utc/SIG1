@@ -2,118 +2,143 @@
 
 @section('contenido')
 <h1 class="text-center">Registrar nuevo Riesgo</h1>
+
 <div class="row justify-content-center">
-    <div class="col-md-2"></div>
-    <div class="col-md-8">
-        <form action="{{ route('ZonasRiesgo.store') }}" method="POST">
+    <div class="col-md-10 col-lg-8">
+        <form action="{{ route('ZonasRiesgo.store') }}" method="POST" class="card shadow p-4 bg-light">
             @csrf
-            <label><b>Nombre del Riesgo:</b></label>
-            <input type="text" name="nombre" id="nombre" placeholder="Ingrese el nombre del riesgo" required class="form-control">
+
+            {{-- Datos generales --}}
+            <label><b>Nombre del Riesgo:</b></label>
+            <input type="text" name="nombre" class="form-control" required placeholder="Nombre del riesgo">
             <br>
+
             <label><b>Descripción:</b></label>
-            <textarea name="descripcion" id="descripcion" class="form-control" placeholder="Describa el riesgo..." required></textarea>
+            <textarea name="descripcion" class="form-control" required placeholder="Describe el riesgo…"></textarea>
             <br>
-            <label><b>Nivel de Riesgo:</b></label>
-            <select class="form-select" name="nivel" id="nivel">
-                <option value="" disabled selected>Seleccione un nivel de riesgo</option>
+
+            <label class="form-label"><b>Nivel de Riesgo:</b></label>
+            <select name="nivel" class="form-select" required>
+                <option value="" disabled selected>Seleccione un nivel</option>
                 <option value="Alto">ALTO</option>
                 <option value="Medio">MEDIO</option>
                 <option value="Bajo">BAJO</option>
             </select>
-            <br>
 
-            @for($i = 1; $i <= 4; $i++)
-            <div class="row mb-4">
-                <div class="col-md-5">
-                    <label><b>COORDENADA N°{{ $i }}</b></label><br><br>
-                    <label>Latitud</label>
-                    <input type="text" name="latitud{{ $i }}" id="latitud{{ $i }}" class="form-control" readonly placeholder="Latitud">
-                    <label>Longitud</label>
-                    <input type="text" name="longitud{{ $i }}" id="longitud{{ $i }}" class="form-control" readonly placeholder="Longitud">
+            {{-- Inputs coordenadas --}}
+            @for ($i = 1; $i <= 4; $i++)
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <label><b>Coordenada N°{{ $i }}</b></label>
+                        <div class="input-group mb-2">
+                            <span class="input-group-text">Latitud</span>
+                            <input type="text" id="latitud{{ $i }}" name="latitud{{ $i }}" class="form-control" readonly>
+                            <br><br>
+                            <span class="input-group-text">Longitud</span>
+                            <input type="text" id="longitud{{ $i }}" name="longitud{{ $i }}" class="form-control" readonly>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-7">
-                    <div id="mapa{{ $i }}" style="border:2px solid white; height:200px;width:100%"></div>
-                </div>
-            </div>
             @endfor
+
+            {{-- Mapa principal --}}
+            <div id="mapa-poligono" style="height: 500px; width:100%; border:2px solid #2563eb;" class="rounded mb-4"></div>
 
             <center>
                 <button class="btn btn-success">Guardar</button>
                 &nbsp;&nbsp;
                 <a href="{{ route('ZonasRiesgo.index') }}" class="btn btn-secondary">Cancelar</a>
                 &nbsp;&nbsp;
-                <button type="reset" class="btn btn-danger">Limpiar</button>
-                &nbsp;&nbsp;
-                <button type="button" class="btn btn-primary" onclick="graficarRiesgo();">Graficar Riesgo</button>
+                <button type="reset" class="btn btn-danger" onclick="reiniciarMapa()">Limpiar</button>
             </center>
         </form>
     </div>
 </div>
 
-<br>
-<div class="row">
-    <div class="col-md-12">
-        <div id="mapa-poligono" style="height: 500px; width:100%; border:2px solid blue;"></div>
-    </div>
-</div>
-
-
+{{-- ======================  SCRIPT GOOGLE MAPS  ====================== --}}
 <script>
-    var mapaPoligono;
+    let mapaPoligono;
+    let marcadores = [];
+    let poligono = null;
 
     function initMap() {
-        const defaultLocation = new google.maps.LatLng(-0.9374805, -78.6161327);
-
-        for (let i = 1; i <= 4; i++) {
-            const mapa = new google.maps.Map(document.getElementById('mapa' + i), {
-                center: defaultLocation,
-                zoom: 15,
-                mapTypeId: google.maps.MapTypeId.ROADMAP
-            });
-
-            const marcador = new google.maps.Marker({
-                position: defaultLocation,
-                map: mapa,
-                title: `Seleccione coordenada ${i}`,
-                draggable: true
-            });
-
-            google.maps.event.addListener(marcador, 'dragend', function () {
-                document.getElementById('latitud' + i).value = this.getPosition().lat();
-                document.getElementById('longitud' + i).value = this.getPosition().lng();
-            });
-        }
+        const centro = { lat: -0.9374805, lng: -78.6161327 };
 
         mapaPoligono = new google.maps.Map(document.getElementById("mapa-poligono"), {
+            center: centro,
             zoom: 15,
-            center: defaultLocation,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         });
-    }
 
-    function graficarRiesgo() {
-        const coordenadas = [];
-
-        for (let i = 1; i <= 4; i++) {
-            const lat = parseFloat(document.getElementById('latitud' + i).value);
-            const lng = parseFloat(document.getElementById('longitud' + i).value);
-            if (!isNaN(lat) && !isNaN(lng)) {
-                coordenadas.push(new google.maps.LatLng(lat, lng));
+        // Al hacer clic se agrega un marcador (máx. 4)
+        mapaPoligono.addListener("click", (e) => {
+            if (marcadores.length >= 4) {
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Máximo 4 puntos',
+                    text: 'Ya definiste las 4 coordenadas de la zona.'
+                });
+                return;
             }
-        }
 
-        const poligono = new google.maps.Polygon({
-            paths: coordenadas,
-            strokeColor: "#FF0000",
-            strokeOpacity: 0.8,
-            strokeWeight: 2,
-            fillColor: "#00FF00",
-            fillOpacity: 0.35
+            const index = marcadores.length;
+            const marker = new google.maps.Marker({
+                position: e.latLng,
+                map: mapaPoligono,
+                draggable: true,
+                label: `${index + 1}`
+            });
+
+            // Actualiza inputs
+            setInputs(index, marker.getPosition());
+
+            // Al arrastrar el marcador…
+            marker.addListener("dragend", () => {
+                setInputs(index, marker.getPosition());
+                dibujarPoligono();
+            });
+
+            marcadores.push(marker);
+            dibujarPoligono();
         });
-
-        poligono.setMap(mapaPoligono);
     }
 
-    window.addEventListener('load', initMap);
+    /* ---------- utilidades ---------- */
+    function setInputs(idx, latLng) {
+        document.getElementById(`latitud${idx + 1}`).value = latLng.lat().toFixed(7);
+        document.getElementById(`longitud${idx + 1}`).value = latLng.lng().toFixed(7);
+    }
+
+    function dibujarPoligono() {
+        if (poligono) poligono.setMap(null);
+
+        if (marcadores.length >= 3) {
+            const coords = marcadores.map(m => m.getPosition());
+            poligono = new google.maps.Polygon({
+                paths: coords,
+                strokeColor: "#ff0000",
+                strokeOpacity: 0.8,
+                strokeWeight: 2,
+                fillColor: "#00ff00",
+                fillOpacity: 0.35,
+                map: mapaPoligono
+            });
+        }
+    }
+
+    function reiniciarMapa() {
+        // Elimina marcadores y polígono
+        marcadores.forEach(m => m.setMap(null));
+        marcadores = [];
+        if (poligono) poligono.setMap(null);
+        poligono = null;
+
+        // Limpia inputs
+        for (let i = 1; i <= 4; i++) {
+            document.getElementById(`latitud${i}`).value = '';
+            document.getElementById(`longitud${i}`).value = '';
+        }
+    }
 </script>
+
 @endsection

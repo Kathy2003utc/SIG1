@@ -45,7 +45,7 @@ class RiesgoController extends Controller
 
         Riesgo::create($request->all());
 
-        return redirect()->route('riesgos.index')->with('message', 'Zona creada exitosamente');
+        return redirect()->route('ZonasRiesgo.index')->with('message', 'Zona creada exitosamente');
     }
 
     /**
@@ -79,7 +79,7 @@ class RiesgoController extends Controller
         $riesgo = Riesgo::findOrFail($id);
         $riesgo->update($request->all());
 
-        return redirect()->route('riesgos.index')->with('success', 'Zona actualizada correctamente');
+        return redirect()->route('ZonasRiesgo.index')->with('success', 'Zona actualizada correctamente');
     }
 
     /**
@@ -90,6 +90,6 @@ class RiesgoController extends Controller
         $riesgo = Riesgo::findOrFail($id);
         $riesgo->delete();
 
-        return redirect()->route('riesgos.index')->with('success', 'Zona eliminada correctamente');
+        return redirect()->route('ZonasRiesgo.index')->with('success', 'Zona eliminada correctamente');
     }
 }
