@@ -1,6 +1,5 @@
-@extends('layout.app')
-
-@section('contenido')
+@extends('layouts.appUser')
+@section('content')
 
 <h1>Bienvenido Usuario</h1>
 <form action="{{ route('logout') }}" method="POST">
