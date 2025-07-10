@@ -5,6 +5,8 @@ use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\UserAuthController;
 use App\Http\Controllers\RiesgoController;
 use App\Http\Controllers\zonaSeguraController;
+use App\Http\Controllers\PuntoEncuentroController;
+
 
 
 
@@ -35,7 +37,9 @@ Route::post('logout', [UserAuthController::class, 'logout'])->name('logout');
 Route::get('/dashboard', fn () => view('user.dashboard'))->middleware('auth:web')->name('user.dashboard');
 
 // CRUDs protegidos para admin
-Route::prefix('admin')->middleware('auth:admin')->group(function () {
+Route::prefix('admin')->middleware('auth:admin')->name('admin.')->group(function () {
+
+    // Rutas existentes para ZonasRiesgo y ZonasSeguras
     Route::resource('ZonasRiesgo', RiesgoController::class)->names([
         'index'   => 'ZonasRiesgo.index',
         'create'  => 'ZonasRiesgo.create',
@@ -55,4 +59,16 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
         'update'  => 'ZonasSeguras.update',
         'destroy' => 'ZonasSeguras.destroy',
     ]);
+
+    // Aquí agregamos las rutas para Puntos de Encuentro
+    Route::resource('puntos', PuntoEncuentroController::class)->names([
+        'index'   => 'puntos.index',
+        'create'  => 'puntos.create',
+        'store'   => 'puntos.store',
+        'show'    => 'puntos.show',
+        'edit'    => 'puntos.edit',
+        'update'  => 'puntos.update',
+        'destroy' => 'puntos.destroy',
+    ]);
 });
+

@@ -6,7 +6,7 @@
 
 <div class="container mt-4">
     <div class="mx-auto" style="max-width: 1000px;">
-        <<a href="{{ route('ZonasRiesgo.create') }}" class="btn btn-success mb-3">
+        <<a href="{{ route('admin.ZonasRiesgo.create') }}" class="btn btn-success mb-3">
             <i class="fas fa-plus-circle"></i> Nueva Zona de riesgo
         </a>
     
@@ -54,12 +54,12 @@
                         <td>Latitud: {{ $riesgo->latitud4 }}<br>Longitud: {{ $riesgo->longitud4 }}</td>
                         <td class="text-center">
                             {{-- Botón Editar --}}
-                            <a href="{{ route('ZonasRiesgo.edit', $riesgo->id) }}" class="btn btn-sm btn-primary me-1">
+                            <a href="{{ route('admin.ZonasRiesgo.edit', $riesgo->id) }}" class="btn btn-sm btn-primary me-1">
                                 <i class="fas fa-edit"></i> Editar
                             </a>
 
                             {{-- Botón Eliminar con SweetAlert --}}
-                            <form action="{{ route('ZonasRiesgo.destroy', $riesgo->id) }}" method="POST" class="d-inline eliminar-formulario">
+                            <form action="{{ route('admin.ZonasRiesgo.destroy', $riesgo->id) }}" method="POST" class="d-inline eliminar-formulario">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-sm btn-danger">

@@ -44,7 +44,7 @@ class zonaSeguraController extends Controller
         ]));
 
         return redirect()
-            ->route('ZonasSeguras.index')
+            ->route('admin.ZonasSeguras.index')
             ->with('success', 'Zona segura actualizada correctamente.');
     }
 
@@ -57,7 +57,7 @@ class zonaSeguraController extends Controller
         $zona->delete();
 
         return redirect()
-            ->route('ZonasSeguras.index')
+            ->route('admin.ZonasSeguras.index')
             ->with('success', 'Zona segura eliminada.');
     }
 
@@ -84,4 +84,27 @@ class zonaSeguraController extends Controller
             ]
         )->validate();
     }
+
+    public function create()
+    {
+        return view('admin.ZonasSeguras.nuevo'); // Asegúrate que esta vista exista
+    }
+
+    public function store(Request $request)
+    {
+        $this->validar($request);
+
+        zonaSegura::create($request->only([
+            'nombre',
+            'tipo_seguridad',
+            'radio',
+            'latitud',
+            'longitud'
+        ]));
+
+        return redirect()
+            ->route('admin.ZonasSeguras.index')
+            ->with('success', 'Zona segura creada correctamente.');
+    }
+
 }

@@ -4,7 +4,7 @@
 
     <h1 class="text-center">Nueva Zona Segura</h1><br>
 
-    <form action="{{ route('ZonasSeguras.store') }}" method="POST" id="frm_nueva_zona_segura">
+    <form action="{{ route('admin.ZonasSeguras.store') }}" method="POST" id="frm_nueva_zona_segura">
         @csrf
 
         <label for=""><b>Nombre:</b></label><br>
@@ -41,7 +41,7 @@
         &nbsp; &nbsp;
         <button type="button" onclick="graficarCirculo()" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalGraficoCirculo">Graficar</button>
         &nbsp; &nbsp;
-        <a href="{{ route('ZonasSeguras.index') }}" class="btn btn-danger">Cancelar</a>
+        <a href="{{ route('admin.ZonasSeguras.index') }}" class="btn btn-danger">Cancelar</a>
 
     </form>
 

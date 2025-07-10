@@ -76,10 +76,13 @@
 			<div class="collapse navbar-collapse" id="ftco-nav">
 				<ul class="navbar-nav ms-auto">
 					<li class="nav-item">
-						<a href="{{ route('ZonasRiesgo.index') }}" class="nav-link">Lista de zonas de riesgo</a>
+						<a href="{{ route('admin.ZonasRiesgo.index') }}" class="nav-link">Lista de zonas de riesgo</a>
 					</li>
 					<li class="nav-item">
-						<a href="{{ route('ZonasSeguras.index') }}" class="nav-link">Lista de zonas seguras</a>
+						<a href="{{ route('admin.ZonasSeguras.index') }}" class="nav-link">Lista de zonas seguras</a>
+					</li>
+					<li class="nav-item">
+						<a href="{{ route('admin.puntos.index') }}" class="nav-link">Lista de zonas seguras</a>
 					</li>
 			</div>
 		</div>

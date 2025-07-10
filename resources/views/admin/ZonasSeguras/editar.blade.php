@@ -6,7 +6,7 @@
 <div class='row'>
     <div class="col-md-2"></div>
     <div class="col-md-8">
-        <form action="{{ route('ZonasSeguras.update', $zona) }}" method="POST">
+        <form action="{{ route('admin.ZonasSeguras.update', $zona) }}" method="POST">
             @csrf
             @method('PUT')
             <h3><b>Editar Zona Segura</b></h3>
@@ -34,7 +34,7 @@
 
             <br>
             <center>
-                <a href="{{ route('ZonasSeguras.index') }}" class="btn btn-secondary">Cancelar</a>
+                <a href="{{ route('admin.ZonasSeguras.index') }}" class="btn btn-secondary">Cancelar</a>
                 <button type="submit" class="btn btn-success">Actualizar Zona</button>
             </center>
         </form>

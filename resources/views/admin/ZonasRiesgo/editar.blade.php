@@ -5,7 +5,7 @@
 
 <div class="row justify-content-center">
     <div class="col-md-10 col-lg-8">
-        <form action="{{ route('ZonasRiesgo.update', $riesgo->id) }}" method="POST" class="card shadow p-4 bg-light">
+        <form action="{{ route('admin.ZonasRiesgo.update', $riesgo->id) }}" method="POST" class="card shadow p-4 bg-light">
             @csrf
             @method('PUT')
 
@@ -48,7 +48,7 @@
             <center>
                 <button class="btn btn-success">Actualizar</button>
                 &nbsp;&nbsp;
-                <a href="{{ route('ZonasRiesgo.index') }}" class="btn btn-secondary">Cancelar</a>
+                <a href="{{ route('admin.ZonasRiesgo.index') }}" class="btn btn-secondary">Cancelar</a>
                 &nbsp;&nbsp;
                 <button type="button" class="btn btn-warning" onclick="reiniciarMapa()">Reiniciar Mapa</button>
             </center>

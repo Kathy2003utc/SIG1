@@ -5,7 +5,7 @@
 <div class="container mt-5">
     <h2 class="mb-4">Zonas Seguras Registradas</h2>
 
-    <a href="{{ route('ZonasSeguras.create') }}" class="btn btn-success mb-3">
+    <a href="{{ route('admin.ZonasSeguras.create') }}" class="btn btn-success mb-3">
         <i class="fas fa-plus-circle"></i> Nueva Zona Segura
     </a>
    
@@ -47,12 +47,12 @@
                         <td>{{ $zona->latitud }}, {{ $zona->longitud }}</td>
                         <td>
                             {{-- Botón Editar --}}
-                            <a href="{{ route('ZonasSeguras.edit', $zona->id) }}" class="btn btn-warning btn-sm">
+                            <a href="{{ route('admin.ZonasSeguras.edit', $zona->id) }}" class="btn btn-warning btn-sm">
                                 <i class="fas fa-edit"></i> Editar
                             </a>
 
                             {{-- Formulario Eliminar con confirmación SweetAlert --}}
-                            <form id="delete-form-{{ $zona->id }}" action="{{ route('ZonasSeguras.destroy', $zona->id) }}" method="POST" style="display:inline-block;">
+                            <form id="delete-form-{{ $zona->id }}" action="{{ route('admin.ZonasSeguras.destroy', $zona->id) }}" method="POST" style="display:inline-block;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="button" class="btn btn-danger btn-sm" onclick="confirmarEliminacion({{ $zona->id }}, '{{ $zona->nombre }}')">

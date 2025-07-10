@@ -5,7 +5,7 @@
 
 <div class="row justify-content-center">
     <div class="col-md-10 col-lg-8">
-        <form action="{{ route('ZonasRiesgo.store') }}" method="POST" class="card shadow p-4 bg-light">
+        <form action="{{ route('admin.ZonasRiesgo.store') }}" method="POST" class="card shadow p-4 bg-light">
             @csrf
 
             {{-- Datos generales --}}
@@ -47,7 +47,7 @@
             <center>
                 <button class="btn btn-success">Guardar</button>
                 &nbsp;&nbsp;
-                <a href="{{ route('ZonasRiesgo.index') }}" class="btn btn-secondary">Cancelar</a>
+                <a href="{{ route('admin.ZonasRiesgo.index') }}" class="btn btn-secondary">Cancelar</a>
                 &nbsp;&nbsp;
                 <button type="reset" class="btn btn-danger" onclick="reiniciarMapa()">Limpiar</button>
             </center>
@@ -55,7 +55,6 @@
     </div>
 </div>
 
-{{-- ======================  SCRIPT GOOGLE MAPS  ====================== --}}
 <script>
     let mapaPoligono;
     let marcadores = [];
