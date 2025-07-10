@@ -34,3 +34,17 @@ Route::post('logout', [UserAuthController::class, 'logout'])->name('logout');
 Route::get('/dashboard', function () {
     return view('user.dashboard');
 })->middleware('auth:web')->name('user.dashboard');
+
+// zonas de riesgo Admin
+
+Route::prefix('admin')->middleware('auth:admin')->group(function () {
+    Route::resource('zonas-riesgo', RiesgoController::class)->names([
+        'index'   => 'admin.zonas-riesgo.index',
+        'create'  => 'admin.zonas-riesgo.create',
+        'store'   => 'admin.zonas-riesgo.store',
+        'show'    => 'admin.zonas-riesgo.show',
+        'edit'    => 'admin.zonas-riesgo.edit',
+        'update'  => 'admin.zonas-riesgo.update',
+        'destroy' => 'admin.zonas-riesgo.destroy',
+    ]);
+});
