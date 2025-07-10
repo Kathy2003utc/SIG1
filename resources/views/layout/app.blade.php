@@ -78,6 +78,9 @@
 					<li class="nav-item">
 						<a href="{{ route('ZonasRiesgo.index') }}" class="nav-link">Lista de zonas de riesgo</a>
 					</li>
+					<li class="nav-item">
+						<a href="{{ route('ZonasSeguras.index') }}" class="nav-link">Lista de zonas seguras</a>
+					</li>
 			</div>
 		</div>
 	</nav>

@@ -6,7 +6,7 @@
 <div class='row'>
     <div class="col-md-2"></div>
     <div class="col-md-8">
-        <form action="{{ route('zonasSeguras.update', $zona) }}" method="POST">
+        <form action="{{ route('ZonasSeguras.update', $zona) }}" method="POST">
             @csrf
             @method('PUT')
             <h3><b>Editar Zona Segura</b></h3>
@@ -18,8 +18,9 @@
             <label for="tipo_seguridad"><b>Tipo de seguridad:</b></label>
             <select name="tipo_seguridad" id="tipo_seguridad" class="form-select" required>
                 <option value="">--- Seleccione ---</option>
-                <option value="Pública" {{ $zona->tipo_seguridad == 'Pública' ? 'selected' : '' }}>Pública</option>
-                <option value="Privada" {{ $zona->tipo_seguridad == 'Privada' ? 'selected' : '' }}>Privada</option>
+                <option value="Refugio" {{ $zona->tipo_seguridad == 'Refugio' ? 'selected' : '' }}>Refugio</option>
+                <option value="Zona de evacuación" {{ $zona->tipo_seguridad == 'Zona de evacuación' ? 'selected' : '' }}>Zona de evacuación</option>
+                <option value="Centro de salud" {{ $zona->tipo_seguridad == 'Centro de salud' ? 'selected' : '' }}>Centro de salud</option>
             </select>
 
             <label for="radio"><b>Radio (en metros):</b></label>
@@ -33,7 +34,7 @@
 
             <br>
             <center>
-                <a href="{{ route('zonasSeguras.index') }}" class="btn btn-secondary">Cancelar</a>
+                <a href="{{ route('ZonasSeguras.index') }}" class="btn btn-secondary">Cancelar</a>
                 <button type="submit" class="btn btn-success">Actualizar Zona</button>
             </center>
         </form>
@@ -80,7 +81,9 @@ function initMap() {
 
     document.getElementById('radio').addEventListener('input', function () {
         const nuevoRadio = parseFloat(this.value);
-        circle.setRadius(nuevoRadio);
+        if (!isNaN(nuevoRadio)) {
+            circle.setRadius(nuevoRadio);
+        }
     });
 
     const actualizarDesdeInputs = () => {
@@ -97,6 +100,8 @@ function initMap() {
     document.getElementById('latitud').addEventListener('change', actualizarDesdeInputs);
     document.getElementById('longitud').addEventListener('change', actualizarDesdeInputs);
 }
+
+// Asegúrate de llamar initMap cuando cargue la API de Google Maps
 </script>
 
 @endsection

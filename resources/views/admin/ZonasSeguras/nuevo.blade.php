@@ -4,7 +4,7 @@
 
     <h1 class="text-center">Nueva Zona Segura</h1><br>
 
-    <form action="{{ route('zonasSeguras.store') }}" method="POST" id="frm_nueva_zona_segura">
+    <form action="{{ route('ZonasSeguras.store') }}" method="POST" id="frm_nueva_zona_segura">
         @csrf
 
         <label for=""><b>Nombre:</b></label><br>
@@ -13,22 +13,23 @@
         <label for=""><b>Tipo de Seguridad:</b></label><br>
         <select name="tipo_seguridad" id="tipo_seguridad" class="form-control">
             <option value="">--Seleccione--</option>
-            <option value="Pública">Zona Pública</option>
-            <option value="Privada">Zona Privada</option>
+            <option value="Refugio">Refugio</option>
+            <option value="Zona de evacuación">Zona de evacuación</option>
+            <option value="Centro de salud">Centro de salud</option>
         </select>
         <br>
 
-        <label for=""><b>Radio:</b></label><br>
+        <label for=""><b>Radio (en metros):</b></label><br>
         <input type="number" name="radio" id="radio" class="form-control" placeholder="Ingrese el radio de seguridad"><br>
 
         <div class="row">
             <div class="col-md-6">
                 <label for=""><b>Latitud:</b></label><br>
-                <input type="number" name="latitud" id="latitud" class="form-control" readonly>
+                <input type="text" name="latitud" id="latitud" class="form-control" readonly>
             </div>
             <div class="col-md-6">
                 <label for=""><b>Longitud:</b></label><br>
-                <input type="number" name="longitud" id="longitud" class="form-control" readonly>
+                <input type="text" name="longitud" id="longitud" class="form-control" readonly>
             </div>
         </div>
 
@@ -40,7 +41,7 @@
         &nbsp; &nbsp;
         <button type="button" onclick="graficarCirculo()" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalGraficoCirculo">Graficar</button>
         &nbsp; &nbsp;
-        <a href="{{ route('zonasSeguras.index') }}" class="btn btn-danger">Cancelar</a>
+        <a href="{{ route('ZonasSeguras.index') }}" class="btn btn-danger">Cancelar</a>
 
     </form>
 

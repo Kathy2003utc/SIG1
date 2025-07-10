@@ -14,7 +14,12 @@
             <textarea name="descripcion" id="descripcion" class="form-control" placeholder="Describa el riesgo..." required></textarea>
             <br>
             <label><b>Nivel de Riesgo:</b></label>
-            <input type="text" name="nivel" id="nivel" placeholder="Alto, Medio o Bajo" required class="form-control">
+            <select class="form-select" name="nivel" id="nivel">
+                <option value="" disabled selected>Seleccione un nivel de riesgo</option>
+                <option value="Alto">ALTO</option>
+                <option value="Medio">MEDIO</option>
+                <option value="Bajo">BAJO</option>
+            </select>
             <br>
 
             @for($i = 1; $i <= 4; $i++)
@@ -22,9 +27,9 @@
                 <div class="col-md-5">
                     <label><b>COORDENADA N°{{ $i }}</b></label><br><br>
                     <label>Latitud</label>
-                    <input type="number" name="latitud{{ $i }}" id="latitud{{ $i }}" class="form-control" readonly placeholder="Seleccione la latitud en el mapa">
+                    <input type="text" name="latitud{{ $i }}" id="latitud{{ $i }}" class="form-control" readonly placeholder="Latitud">
                     <label>Longitud</label>
-                    <input type="number" name="longitud{{ $i }}" id="longitud{{ $i }}" class="form-control" readonly placeholder="Seleccione la longitud en el mapa">
+                    <input type="text" name="longitud{{ $i }}" id="longitud{{ $i }}" class="form-control" readonly placeholder="Longitud">
                 </div>
                 <div class="col-md-7">
                     <div id="mapa{{ $i }}" style="border:2px solid white; height:200px;width:100%"></div>
@@ -51,6 +56,7 @@
         <div id="mapa-poligono" style="height: 500px; width:100%; border:2px solid blue;"></div>
     </div>
 </div>
+
 
 <script>
     var mapaPoligono;
@@ -87,6 +93,7 @@
 
     function graficarRiesgo() {
         const coordenadas = [];
+
         for (let i = 1; i <= 4; i++) {
             const lat = parseFloat(document.getElementById('latitud' + i).value);
             const lng = parseFloat(document.getElementById('longitud' + i).value);
@@ -109,5 +116,4 @@
 
     window.addEventListener('load', initMap);
 </script>
-
 @endsection
