@@ -71,7 +71,7 @@
     </div>
 </div>
 
-{{-- Script de DataTable --}}
+
 <script>
 $(document).ready(function() {
     let table = new DataTable('#zonas-table', {

@@ -10,9 +10,11 @@
             <i class="fas fa-plus-circle"></i> Nueva Zona de riesgo
         </a>
     
-        <a href="#" class="btn btn-primary mb-3">
-            <i class="fas fa-map"></i> Vista previa del reporte
+        <a href="{{ route('admin.reportes.zonas') }}" class="btn btn-outline-primary">
+            <i class="fas fa-file-pdf"></i> Generar reporte PDF
         </a>
+
+
 
         <br>
 
@@ -79,7 +81,7 @@
     </div>
 </div>
 
-{{-- Script de DataTable --}}
+
 <script>
 $(document).ready(function() {
     let table = new DataTable('#zonas-table', {

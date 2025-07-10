@@ -82,8 +82,12 @@
 						<a href="{{ route('admin.ZonasSeguras.index') }}" class="nav-link">Lista de zonas seguras</a>
 					</li>
 					<li class="nav-item">
-						<a href="{{ route('admin.puntos.index') }}" class="nav-link">Lista de zonas seguras</a>
+						<a href="{{ route('admin.puntos.index') }}" class="nav-link">Lista de puntos de reunion</a>
 					</li>
+					<a href="{{ route('admin.ZonasRiesgo.mapa') }}" class="nav-link">
+						<i class="nav-item"></i> Ver mapa general de zonas de riesgo
+					</a>
+
 			</div>
 		</div>
 	</nav>

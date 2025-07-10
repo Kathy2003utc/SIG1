@@ -6,6 +6,8 @@ use App\Http\Controllers\UserAuthController;
 use App\Http\Controllers\RiesgoController;
 use App\Http\Controllers\zonaSeguraController;
 use App\Http\Controllers\PuntoEncuentroController;
+use App\Http\Controllers\ReportesController;
+use App\Models\Riesgo;
 
 
 
@@ -70,5 +72,21 @@ Route::prefix('admin')->middleware('auth:admin')->name('admin.')->group(function
         'update'  => 'puntos.update',
         'destroy' => 'puntos.destroy',
     ]);
+
+    Route::get('reportes/zonas', [ReportesController::class, 'generarPDF'])
+      ->name('reportes.zonas')
+      ->middleware('auth:admin');
+
+    Route::get('mapa-zonas', function () {
+        $zonas = Riesgo::all();
+        return view('mapas.publico', compact('zonas'));
+    })->name('mapa.zonas.publico');
+
+    // routes/web.php  (dentro del prefix('admin')->name('admin.') …)
+    Route::get('ZonasRiesgo/mapa', [RiesgoController::class, 'mapa'])
+        ->name('ZonasRiesgo.mapa');
+
+
+
 });
 

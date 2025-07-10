@@ -92,4 +92,19 @@ class RiesgoController extends Controller
 
         return redirect()->route('admin.ZonasRiesgo.index')->with('success', 'Zona eliminada correctamente');
     }
+
+    // app/Http/Controllers/RiesgoController.php
+    public function mapa()
+    {
+        $riesgos = \App\Models\Riesgo::all();
+        return view('admin.ZonasRiesgo.mapa', compact('riesgos'));
+    }
+
+    
+    public function show($id)
+    {
+        
+    }
+
+
 }
