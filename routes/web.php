@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\UserAuthController;
+use App\Http\Controllers\RiesgoController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -38,13 +40,13 @@ Route::get('/dashboard', function () {
 // zonas de riesgo Admin
 
 Route::prefix('admin')->middleware('auth:admin')->group(function () {
-    Route::resource('zonas-riesgo', RiesgoController::class)->names([
-        'index'   => 'admin.zonas-riesgo.index',
-        'create'  => 'admin.zonas-riesgo.create',
-        'store'   => 'admin.zonas-riesgo.store',
-        'show'    => 'admin.zonas-riesgo.show',
-        'edit'    => 'admin.zonas-riesgo.edit',
-        'update'  => 'admin.zonas-riesgo.update',
-        'destroy' => 'admin.zonas-riesgo.destroy',
+    Route::resource('ZonasRiesgo', RiesgoController::class)->names([
+        'index'   => 'ZonasRiesgo.index',
+        'create'  => 'ZonasRiesgo.create',
+        'store'   => 'ZonasRiesgo.store',
+        'show'    => 'ZonasRiesgo.show',
+        'edit'    => 'ZonasRiesgo.edit',
+        'update'  => 'ZonasRiesgo.update',
+        'destroy' => 'ZonasRiesgo.destroy',
     ]);
 });

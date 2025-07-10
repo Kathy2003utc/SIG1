@@ -1,5 +1,4 @@
 @extends('layout.app')
-
 @section('contenido')
 
 <h1>Bienvenido Administrador</h1>

@@ -2,108 +2,94 @@
 
 namespace App\Http\Controllers;
 
-
 use Illuminate\Http\Request;
-
 use App\Models\Riesgo;
 
 class RiesgoController extends Controller
-
 {
     /**
-     * Display a listing of the resource.
+     * Muestra el listado de riesgos.
      */
     public function index()
     {
-        //
-        $riesgos=Riesgo::all();
-        return view('admin.ZonasRiesgo.index',compact('riesgos'));
+        $riesgos = Riesgo::all();
+        return view('admin.ZonasRiesgo.index', compact('riesgos'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Muestra el formulario para crear un nuevo riesgo.
      */
     public function create()
     {
-        //
         return view('admin.ZonasRiesgo.nuevo');
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Almacena un nuevo riesgo en la base de datos.
      */
     public function store(Request $request)
     {
-        //
-        $datos=[
-            'nombre'=> $request->nombre,
-            'descripcion'=> $request->descripcion,
-            'nivel'=> $request->nivel,
-            'latitud1'=> $request->latitud1,
-            'longitud1'=> $request->longitud1,
-            'latitud2'=> $request->latitud2,
-            'longitud2'=> $request->longitud2,
-            'latitud3'=> $request->latitud3,
-            'longitud3'=> $request->longitud3,
-            'latitud4'=> $request->latitud4,
-            'longitud4'=> $request->longitud4
-        ];
-        Riesgo::create($datos);
-         // Pasar mensaje a la vista con nombre 'message'
-        return redirect()->route('ZonasRiesgo.index')->with('message', 'Zona creada exitosamente');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-        $riesgos = Riesgo::findOrFail($id); 
-        return view('admin.ZonasRiesgo.editar', compact('riesgos'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-        $riesgo = Riesgo::findOrFail($id);
-        $riesgo->update([
-            'nombre' => $request->nombre,
-            'descripcion' => $request->descripcion,
-            'nivel' => $request->nivel,
-            'latitud1' => $request->latitud1,
-            'longitud1' => $request->longitud1,
-            'latitud2' => $request->latitud2,
-            'longitud2' => $request->longitud2,
-            'latitud3' => $request->latitud3,
-            'longitud3' => $request->longitud3,
-            'latitud4' => $request->latitud4,
-            'longitud4' => $request->longitud4
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'descripcion' => 'required|string',
+            'nivel' => 'required|string',
+            'latitud1' => 'required|numeric',
+            'longitud1' => 'required|numeric',
+            'latitud2' => 'required|numeric',
+            'longitud2' => 'required|numeric',
+            'latitud3' => 'required|numeric',
+            'longitud3' => 'required|numeric',
+            'latitud4' => 'required|numeric',
+            'longitud4' => 'required|numeric',
         ]);
 
-        return redirect()->route('ZonasRiesgo.index')->with('success', 'Zona actualizada correctamente');
+        Riesgo::create($request->all());
+
+        return redirect()->route('riesgos.index')->with('message', 'Zona creada exitosamente');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Muestra el formulario para editar un riesgo existente.
      */
-    public function destroy(string $id)
+    public function edit($id)
     {
-        //
-        $riegos = Riesgo::findOrFail($id);
-        $riegos->delete();
-    
-        return redirect()->route('ZonasRiesgo.index')->with('success', 'Zona eliminada correctamente');
+        $riesgo = Riesgo::findOrFail($id);
+        return view('admin.ZonasRiesgo.editar', compact('riesgo'));
+    }
+
+    /**
+     * Actualiza un riesgo existente.
+     */
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'descripcion' => 'required|string',
+            'nivel' => 'required|string',
+            'latitud1' => 'required|numeric',
+            'longitud1' => 'required|numeric',
+            'latitud2' => 'required|numeric',
+            'longitud2' => 'required|numeric',
+            'latitud3' => 'required|numeric',
+            'longitud3' => 'required|numeric',
+            'latitud4' => 'required|numeric',
+            'longitud4' => 'required|numeric',
+        ]);
+
+        $riesgo = Riesgo::findOrFail($id);
+        $riesgo->update($request->all());
+
+        return redirect()->route('riesgos.index')->with('success', 'Zona actualizada correctamente');
+    }
+
+    /**
+     * Elimina un riesgo de la base de datos.
+     */
+    public function destroy($id)
+    {
+        $riesgo = Riesgo::findOrFail($id);
+        $riesgo->delete();
+
+        return redirect()->route('riesgos.index')->with('success', 'Zona eliminada correctamente');
     }
 }
