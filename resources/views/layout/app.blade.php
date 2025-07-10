@@ -80,7 +80,6 @@
 		</div>
 	</nav>
 
-	<!-- CONTENIDO -->
 	@yield('contenido')
 
 	<!-- FOOTER -->
