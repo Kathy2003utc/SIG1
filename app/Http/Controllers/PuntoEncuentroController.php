@@ -62,4 +62,11 @@ class PuntoEncuentroController extends Controller
 
         return redirect()->route('puntos.index')->with('success', 'Punto de encuentro eliminado correctamente.');
     }
+
+
+    public function show($id)
+    {
+        
+    }
+
 }

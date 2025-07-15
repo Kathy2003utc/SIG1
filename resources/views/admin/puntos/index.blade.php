@@ -26,7 +26,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($puntos as $punto)
+            @forelse ($puntos as $punto)
                 <tr>
                     <td>{{ $punto->nombre }}</td>
                     <td>{{ $punto->capacidad }}</td>
@@ -42,7 +42,11 @@
                         </form>
                     </td>
                 </tr>
-            @endforeach
+            @empty
+            <tr>
+                <td colspan="8" class="text-center">No hay riesgos registrados.</td>
+            </tr>
+            @endforelse
         </tbody>
     </table>
 </div>
@@ -69,5 +73,10 @@
         @endforeach
     }
 </script>
+
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&callback=initMap">
+</script>
+
 
 @endsection
