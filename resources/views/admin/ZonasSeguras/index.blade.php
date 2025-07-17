@@ -74,7 +74,7 @@
 
 <script>
 $(document).ready(function() {
-    let table = new DataTable('#zonas-table', {
+    $('#zonas-table').DataTable({
         language: {
             url: 'https://cdn.datatables.net/plug-ins/2.3.1/i18n/es-ES.json'
         },
