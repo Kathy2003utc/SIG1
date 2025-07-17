@@ -66,24 +66,28 @@ class zonaSeguraController extends Controller
      */
     private function validar(Request $request): void
     {
-        Validator::make(
-            $request->all(),
-            [
-                'nombre'         => 'required|string|max:255',
-                'tipo_seguridad' => 'required|in:Pública,Privada,Refugio,Zona de evacuación,Centro de salud',
-                'radio'          => 'required|numeric|min:1',
-                'latitud'        => 'required|numeric|between:-90,90',
-                'longitud'       => 'required|numeric|between:-180,180',
-            ],
-            [
-                'nombre.required'         => 'El nombre es obligatorio.',
-                'tipo_seguridad.required' => 'Debe seleccionar un tipo de seguridad.',
-                'radio.min'               => 'El radio debe ser mayor que 0.',
-                'latitud.between'         => 'La latitud debe estar entre -90 y 90.',
-                'longitud.between'        => 'La longitud debe estar entre -180 y 180.',
-            ]
-        )->validate();
+    Validator::make(
+        $request->all(),
+        [
+            'nombre'         => 'required|string|max:255',
+            'tipo_seguridad' => 'required|in:Pública,Privada,Refugio,Zona de evacuación,Centro de salud',
+            'radio'          => 'required|numeric|min:1',
+            'latitud'        => 'required|numeric|between:-90,90',
+            'longitud'       => 'required|numeric|between:-180,180',
+        ],
+        [
+            'nombre.required'         => 'El nombre es obligatorio.',
+            'tipo_seguridad.required' => 'Debe seleccionar un tipo de seguridad.',
+            'radio.required'          => 'El campo radio es obligatorio.',
+            'radio.min'               => 'El radio debe ser mayor que 0.',
+            'latitud.required'        => 'El campo latitud es obligatorio.',
+            'latitud.between'         => 'La latitud debe estar entre -90 y 90.',
+            'longitud.required'       => 'El campo longitud es obligatorio.',
+            'longitud.between'        => 'La longitud debe estar entre -180 y 180.',
+        ]
+    )->validate();
     }
+
 
     public function create()
     {

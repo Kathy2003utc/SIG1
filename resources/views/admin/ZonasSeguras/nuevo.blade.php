@@ -8,33 +8,67 @@
         <form action="{{ route('admin.ZonasSeguras.store') }}" method="POST" id="frm_nueva_zona_segura">
             @csrf
 
-            <label for=""><b>Nombre:</b></label><br>
-            <input type="text" name="nombre" id="nombre" class="form-control" placeholder="Ingrese el nombre de la zona"><br>
+            <label for="nombre"><b>Nombre:</b></label>
+            <div class="mb-3">
+                <input type="text" name="nombre" id="nombre" class="form-control @error('nombre') is-invalid @enderror" placeholder="Ingrese el nombre de la zona" value="{{ old('nombre') }}">
+                @error('nombre')
+                    <div class="invalid-feedback d-block">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
 
-            <label for=""><b>Tipo de Seguridad:</b></label><br>
-            <select name="tipo_seguridad" id="tipo_seguridad" class="form-control">
-                <option value="">--Seleccione--</option>
-                <option value="Refugio">Refugio</option>
-                <option value="Zona de evacuación">Zona de evacuación</option>
-                <option value="Centro de salud">Centro de salud</option>
-            </select>
-            <br>
+            <label for="tipo_seguridad"><b>Tipo de Seguridad:</b></label>
+            <div class="mb-3">
+                <select name="tipo_seguridad" id="tipo_seguridad" class="form-control @error('tipo_seguridad') is-invalid @enderror">
+                    <option value="">--Seleccione--</option>
+                    <option value="Refugio" {{ old('tipo_seguridad') == 'Refugio' ? 'selected' : '' }}>Refugio</option>
+                    <option value="Zona de evacuación" {{ old('tipo_seguridad') == 'Zona de evacuación' ? 'selected' : '' }}>Zona de evacuación</option>
+                    <option value="Centro de salud" {{ old('tipo_seguridad') == 'Centro de salud' ? 'selected' : '' }}>Centro de salud</option>
+                </select>
+                @error('tipo_seguridad')
+                    <div class="invalid-feedback d-block">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
 
-            <label for=""><b>Radio (en metros):</b></label><br>
-            <input type="number" name="radio" id="radio" class="form-control" placeholder="Ingrese el radio de seguridad"><br>
+            <label for="radio"><b>Radio (en metros):</b></label>
+            <div class="mb-3">
+                <input type="number" name="radio" id="radio" class="form-control @error('radio') is-invalid @enderror" placeholder="Ingrese el radio de seguridad" value="{{ old('radio') }}">
+                @error('radio')
+                    <div class="invalid-feedback d-block">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
 
             <div class="row">
                 <div class="col-md-6">
-                    <label for=""><b>Latitud:</b></label><br>
-                    <input type="text" name="latitud" id="latitud" class="form-control" readonly>
+                    <label for="latitud"><b>Latitud:</b></label>
+                    <div class="mb-3">
+                        <input type="text" name="latitud" id="latitud" class="form-control @error('latitud') is-invalid @enderror" readonly value="{{ old('latitud') }}">
+                        @error('latitud')
+                            <div class="invalid-feedback d-block">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
                 </div>
                 <div class="col-md-6">
-                    <label for=""><b>Longitud:</b></label><br>
-                    <input type="text" name="longitud" id="longitud" class="form-control" readonly>
+                    <label for="longitud"><b>Longitud:</b></label>
+                    <div class="mb-3">
+                        <input type="text" name="longitud" id="longitud" class="form-control @error('longitud') is-invalid @enderror" readonly value="{{ old('longitud') }}">
+                        @error('longitud')
+                            <div class="invalid-feedback d-block">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
                 </div>
             </div>
 
-            <br><label for=""><b>Ubicación de la Zona Segura:</b></label><br>
+            <label for=""><b>Ubicación de la Zona Segura:</b></label>
             <div id="mapa1" style="border:2px solid black; height:300px; width:100%;"></div>
             <br>
 

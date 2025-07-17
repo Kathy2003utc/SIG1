@@ -7,7 +7,7 @@
 
 <script>
     function initMap() {
-        const centro = { lat: -0.9374805, lng: -78.6161327 }; // Cambia por tu centro real
+        const centro = { lat: -0.9374805, lng: -78.6161327 }; 
         const mapa = new google.maps.Map(document.getElementById("map"), {
             zoom: 14,
             center: centro,
