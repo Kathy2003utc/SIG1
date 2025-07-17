@@ -118,6 +118,7 @@
 						<ul class="list-unstyled">
 							<li><a href="#" class="py-2 d-block">Pico Katherin</a></li>
 							<li><a href="#" class="py-2 d-block">Trujillo Israel</a></li>
+							<li><a href="#" class="py-2 d-block">Ganchala Evelin</a></li>
 							<li><a href="#" class="py-2 d-block">Agente Turístico</a></li>
 							<li><a href="#" class="py-2 d-block">Privacidad</a></li>
 							<li><a href="#" class="py-2 d-block">Políticas empresariales</a></li>

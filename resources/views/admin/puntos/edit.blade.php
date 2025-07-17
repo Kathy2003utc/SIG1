@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('content')
+@section('contenido')
 <div class="container">
     <h1 class="mb-4">Editar Punto de Encuentro</h1>
 

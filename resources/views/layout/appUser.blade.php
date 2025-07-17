@@ -75,7 +75,7 @@
 			</button>
 			<div class="collapse navbar-collapse" id="ftco-nav">
 				<ul class="navbar-nav ms-auto">
-					<li class="nav-item"><a href="{{ route('turismos.index') }}" class="nav-link">Lista de puntos Turisticos</a></li>
+					<li class="nav-item"><a href="{{ route('admin.puntos.index') }}" class="nav-link">Lista de puntos Turisticos</a></li>
 			</div>
 		</div>
 	</nav>
