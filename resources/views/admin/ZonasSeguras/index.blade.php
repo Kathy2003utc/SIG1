@@ -44,7 +44,7 @@
                         <td>{{ $zona->nombre }}</td>
                         <td>{{ $zona->tipo_seguridad }}</td>
                         <td>{{ $zona->radio }}</td>
-                        <td>{{ $zona->latitud }}, {{ $zona->longitud }}</td>
+                        <td>{{ $zona->latitud }}<br>{{ $zona->longitud }}</td>
                         <td>
                             {{-- Botón Editar --}}
                             <a href="{{ route('admin.ZonasSeguras.edit', $zona->id) }}" class="btn btn-warning btn-sm">
