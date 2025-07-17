@@ -4,46 +4,48 @@
 
     <h1 class="text-center">Nueva Zona Segura</h1><br>
 
-    <form action="{{ route('admin.ZonasSeguras.store') }}" method="POST" id="frm_nueva_zona_segura">
-        @csrf
+    <div class="container" style="max-width: 1100px; margin: 0 auto;">
+        <form action="{{ route('admin.ZonasSeguras.store') }}" method="POST" id="frm_nueva_zona_segura">
+            @csrf
 
-        <label for=""><b>Nombre:</b></label><br>
-        <input type="text" name="nombre" id="nombre" class="form-control" placeholder="Ingrese el nombre de la zona"><br>
+            <label for=""><b>Nombre:</b></label><br>
+            <input type="text" name="nombre" id="nombre" class="form-control" placeholder="Ingrese el nombre de la zona"><br>
 
-        <label for=""><b>Tipo de Seguridad:</b></label><br>
-        <select name="tipo_seguridad" id="tipo_seguridad" class="form-control">
-            <option value="">--Seleccione--</option>
-            <option value="Refugio">Refugio</option>
-            <option value="Zona de evacuación">Zona de evacuación</option>
-            <option value="Centro de salud">Centro de salud</option>
-        </select>
-        <br>
+            <label for=""><b>Tipo de Seguridad:</b></label><br>
+            <select name="tipo_seguridad" id="tipo_seguridad" class="form-control">
+                <option value="">--Seleccione--</option>
+                <option value="Refugio">Refugio</option>
+                <option value="Zona de evacuación">Zona de evacuación</option>
+                <option value="Centro de salud">Centro de salud</option>
+            </select>
+            <br>
 
-        <label for=""><b>Radio (en metros):</b></label><br>
-        <input type="number" name="radio" id="radio" class="form-control" placeholder="Ingrese el radio de seguridad"><br>
+            <label for=""><b>Radio (en metros):</b></label><br>
+            <input type="number" name="radio" id="radio" class="form-control" placeholder="Ingrese el radio de seguridad"><br>
 
-        <div class="row">
-            <div class="col-md-6">
-                <label for=""><b>Latitud:</b></label><br>
-                <input type="text" name="latitud" id="latitud" class="form-control" readonly>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for=""><b>Latitud:</b></label><br>
+                    <input type="text" name="latitud" id="latitud" class="form-control" readonly>
+                </div>
+                <div class="col-md-6">
+                    <label for=""><b>Longitud:</b></label><br>
+                    <input type="text" name="longitud" id="longitud" class="form-control" readonly>
+                </div>
             </div>
-            <div class="col-md-6">
-                <label for=""><b>Longitud:</b></label><br>
-                <input type="text" name="longitud" id="longitud" class="form-control" readonly>
-            </div>
-        </div>
 
-        <br><label for=""><b>Ubicación de la Zona Segura:</b></label><br>
-        <div id="mapa1" style="border:2px solid black; height:300px; width:100%;"></div>
-        <br>
+            <br><label for=""><b>Ubicación de la Zona Segura:</b></label><br>
+            <div id="mapa1" style="border:2px solid black; height:300px; width:100%;"></div>
+            <br>
 
-        <button class="btn btn-success">Guardar</button>
-        &nbsp; &nbsp;
-        <button type="button" onclick="graficarCirculo()" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalGraficoCirculo">Graficar</button>
-        &nbsp; &nbsp;
-        <a href="{{ route('admin.ZonasSeguras.index') }}" class="btn btn-danger">Cancelar</a>
+            <button class="btn btn-success">Guardar</button>
+            &nbsp; &nbsp;
+            <button type="button" onclick="graficarCirculo()" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalGraficoCirculo">Graficar</button>
+            &nbsp; &nbsp;
+            <a href="{{ route('admin.ZonasSeguras.index') }}" class="btn btn-danger">Cancelar</a>
 
-    </form>
+        </form>
+    </div>
 
     <!-- Modal -->
     <div class="modal fade" id="modalGraficoCirculo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
