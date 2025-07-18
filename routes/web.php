@@ -86,6 +86,15 @@ Route::prefix('admin')->middleware('auth:admin')->name('admin.')->group(function
     // routes/web.php  (dentro del prefix('admin')->name('admin.') …)
     Route::get('ZonasRiesgo/mapa', [RiesgoController::class, 'mapa'])
         ->name('ZonasRiesgo.mapa');
+    Route::get('zonas-seguras/mapa', [zonaSeguraController::class, 'mapa'])->name('ZonasSeguras.mapa');
+
+    Route::get('zonas-seguras/reporte', [zonaSeguraController::class, 'reporte'])->name('ZonasSeguras.reporte');
+
+    Route::get('/admin/puntos/reporte', [PuntoEncuentroController::class, 'reporte'])->name('puntos.reporte');
+
+    Route::get('/admin/puntos/mapa', [PuntoEncuentroController::class, 'mapa'])->name('puntos.mapa');
+
+    Route::get('/admin/puntos/reporte-pdf', [PuntoEncuentroController::class, 'reportePdf'])->name('puntos.reportePdf');
 
 
 

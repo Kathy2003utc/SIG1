@@ -7,6 +7,22 @@
     <a href="{{ route('admin.puntos.create') }}" class="btn btn-primary mb-3">
         <i class="fas fa-plus"></i> Nuevo Punto
     </a>
+    <a href="{{ route('admin.puntos.mapa') }}" class="btn btn-success mb-3">
+        <i class="fas fa-map-marker-alt"></i> Ver Mapa Público
+    </a>
+
+    <a href="{{ route('admin.puntos.reporte') }}" class="btn btn-danger mb-3">
+        <i class="fas fa-file-pdf"></i> Generar Reporte
+    </a>
+
+    <a href="{{ route('admin.puntos.reportePdf') }}" class="btn btn-danger mb-3">
+        <i class="fas fa-file-pdf"></i> Descargar Reporte PDF
+    </a>
+
+
+
+
+
 
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
@@ -74,9 +90,6 @@
     }
 </script>
 
-<script async defer
-    src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&callback=initMap">
-</script>
 
 
 @endsection

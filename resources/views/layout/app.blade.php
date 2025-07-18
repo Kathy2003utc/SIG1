@@ -92,10 +92,6 @@
 					<li class="nav-item">
 						<a href="{{ route('admin.puntos.index') }}" class="nav-link">Lista de puntos de reunion</a>
 					</li>
-					<a href="{{ route('admin.ZonasRiesgo.mapa') }}" class="nav-link">
-						<i class="nav-item"></i> Ver mapa general de zonas de riesgo
-					</a>
-
 			</div>
 		</div>
 	</nav>

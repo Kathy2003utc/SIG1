@@ -65,5 +65,5 @@
     }
 </script>
 
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=TU_API_KEY_AQUI&callback=initMap"></script>
+
 @endsection

@@ -75,8 +75,20 @@
 			</button>
 			<div class="collapse navbar-collapse" id="ftco-nav">
 				<ul class="navbar-nav ms-auto">
-					<li class="nav-item"><a href="{{ route('admin.puntos.index') }}" class="nav-link">Lista de puntos Turisticos</a></li>
+					<li class="nav-item"><a href="{{ route('admin.puntos.mapa') }}" class="nav-link">Lista de puntos Turisticos</a></li>
 			</div>
+
+			<div class="collapse navbar-collapse" id="ftco-nav">
+				<ul class="navbar-nav ms-auto">
+					<li class="nav-item"><a href="{{ route('admin.ZonasSeguras.mapa') }}" class="nav-link">Lista de zonas de riesgo</a></li>
+			</div>
+
+			<div class="collapse navbar-collapse" id="ftco-nav">
+				<ul class="navbar-nav ms-auto">
+					<li class="nav-item"><a href="{{ route('admin.puntos.mapa') }}" class="nav-link">Lista de puntos Turisticos</a></li>
+			</div>
+
+
 		</div>
 	</nav>
 

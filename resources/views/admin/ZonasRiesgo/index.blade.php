@@ -15,7 +15,6 @@
         </a>
 
 
-
         <br>
 
         {{-- Mensaje de éxito con SweetAlert --}}

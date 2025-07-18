@@ -6,6 +6,9 @@ use App\Models\zonaSegura;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Support\Facades\URL;
+
 class zonaSeguraController extends Controller
 {
     /**
@@ -110,5 +113,24 @@ class zonaSeguraController extends Controller
             ->route('admin.ZonasSeguras.index')
             ->with('success', 'Zona segura creada correctamente.');
     }
+
+    public function mapa()
+    {
+        $zonas = zonaSegura::all();
+        return view('admin.ZonasSeguras.mapa', compact('zonas'));
+    }
+    
+
+    public function reporte()
+    {
+        $zonas = zonaSegura::all();
+        
+        $mapa_url = URL::to('/zonas-seguras/mapa');
+        $qrCodeB64 = base64_encode(QrCode::format('png')->size(150)->generate($mapa_url));
+
+        return view('admin.ZonasSeguras.reporte', compact('zonas', 'mapa_url', 'qrCodeB64'));
+    }
+
+
 
 }
