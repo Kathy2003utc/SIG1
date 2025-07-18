@@ -11,53 +11,62 @@ class UserController extends Controller
     public function index()
     {
         $usuarios = User::all();
-        return view('usuarios.index', compact('usuarios'));
+        return view('user.puntos.index', compact('usuarios'));
     }
 
     public function create()
     {
-        return view('usuarios.create');
+        return view('user.puntos.crear');
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:6'
+            'nombre' => 'required|string|max:255',
+            'capacidad' => 'required|integer|min:1',
+            'latitud' => 'required|numeric',
+            'longitud' => 'required|numeric',
+            'responsable' => 'required|string|max:255',
         ]);
 
-        User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password)
-        ]);
+        PuntoEncuentro::create($request->all());
 
-        return redirect()->route('usuarios.index')->with('success', 'Usuario creado correctamente.');
+        return redirect()->route('puntos.index')->with('success', 'Punto de encuentro creado correctamente.');
     }
 
     public function edit(User $usuario)
     {
-        return view('usuarios.edit', compact('usuario'));
+        $punto = PuntoEncuentro::findOrFail($id);
+        return view('user.puntos.editar', compact('punto'));
     }
 
     public function update(Request $request, User $usuario)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $usuario->id,
+            'nombre' => 'required|string|max:255',
+            'capacidad' => 'required|integer|min:1',
+            'latitud' => 'required|numeric',
+            'longitud' => 'required|numeric',
+            'responsable' => 'required|string|max:255',
         ]);
 
-        $usuario->update($request->only('name', 'email'));
+        $punto = PuntoEncuentro::findOrFail($id);
+        $punto->update($request->all());
 
-        return redirect()->route('usuarios.index')->with('success', 'Usuario actualizado correctamente.');
+        return redirect()->route('puntos.index')->with('success', 'Punto de encuentro actualizado correctamente.');
     }
 
     public function destroy(User $usuario)
     {
-        $usuario->delete();
+        $punto = PuntoEncuentro::findOrFail($id);
+        $punto->delete();
 
-        return redirect()->route('usuarios.index')->with('success', 'Usuario eliminado correctamente.');
+        return redirect()->route('puntos.index')->with('success', 'Punto de encuentro eliminado correctamente.');
+    }
+
+    public function show($id)
+    {
+        
     }
 }
 

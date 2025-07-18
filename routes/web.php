@@ -91,7 +91,8 @@ Route::prefix('admin')->middleware('auth:admin')->name('admin.')->group(function
 
 });
 
-Route::middleware(['auth'])->group(function () {
-    Route::resource('usuarios', UserController::class);
-});
+    Route::middleware(['auth'])->group(function () {
+        Route::resource('usuarios', UserController::class);
+
+    });
 

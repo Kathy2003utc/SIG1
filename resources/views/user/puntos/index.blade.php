@@ -5,7 +5,7 @@
 <div class="container mt-5">
     <h2 class="mb-4">Zonas Seguras Registradas</h2>
 
-    <a href="{{ route('admin.ZonasSeguras.create') }}" class="btn btn-success mb-3">
+    <a href="{{ route('user.ZonasSeguras.create') }}" class="btn btn-success mb-3">
         <i class="fas fa-plus-circle"></i> Nueva Zona Segura
     </a>
    
