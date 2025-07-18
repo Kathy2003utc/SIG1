@@ -6,7 +6,7 @@
 <div class='row'>
     <div class="col-md-2"></div>
     <div class="col-md-8">
-        <form action="{{ route('admin.ZonasSeguras.update', $zona) }}" method="POST">
+        <form id="frm_zona_segura" action="{{ route('admin.ZonasSeguras.update', $zona) }}" method="POST">
             @csrf
             @method('PUT')
             <h3><b>Editar Zona Segura</b></h3>
@@ -101,7 +101,83 @@ function initMap() {
     document.getElementById('longitud').addEventListener('change', actualizarDesdeInputs);
 }
 
-// Asegúrate de llamar initMap cuando cargue la API de Google Maps
+
+</script>
+<script>
+    $(document).ready(function () {
+        $("#frm_zona_segura").validate({
+            rules: {
+                nombre: {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 50
+                },
+                tipo_seguridad: {
+                    required: true
+                },
+                radio: {
+                    required: true,
+                    number: true,
+                    min: 10,
+                    max: 1000
+                },
+                latitud: {
+                    required: true
+                },
+                longitud: {
+                    required: true
+                }
+            },
+            messages: {
+                nombre: {
+                    required: "El nombre es obligatorio",
+                    minlength: "Debe tener al menos 3 caracteres",
+                    maxlength: "Máximo 50 caracteres"
+                },
+                tipo_seguridad: {
+                    required: "Debe seleccionar el tipo de seguridad"
+                },
+                radio: {
+                    required: "Debe ingresar un radio",
+                    number: "Debe ser un número",
+                    min: "El radio mínimo debe ser 10 metros",
+                    max: "El radio máximo permitido es 1000 metros"
+                },
+                latitud: {
+                    required: "Debe seleccionar una ubicación en el mapa"
+                },
+                longitud: {
+                    required: "Debe seleccionar una ubicación en el mapa"
+                }
+            },
+            submitHandler: function (form) {
+                // Validación adicional: latitud/longitud deben ser números válidos
+                const lat = parseFloat($("#latitud").val());
+                const lng = parseFloat($("#longitud").val());
+                const radio = parseFloat($("#radio").val());
+
+                if (isNaN(lat) || isNaN(lng)) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Ubicación inválida',
+                        text: 'La latitud o longitud no son válidas.'
+                    });
+                    return false;
+                }
+
+                if (isNaN(radio) || radio <= 0) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Radio inválido',
+                        text: 'Debe ingresar un radio mayor a 0.'
+                    });
+                    return false;
+                }
+
+                form.submit(); 
+            }
+        });
+    });
 </script>
 
 @endsection

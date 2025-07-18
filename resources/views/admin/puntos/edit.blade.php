@@ -4,7 +4,7 @@
 <div class="container">
     <h1 class="mb-4">Editar Punto de Encuentro</h1>
 
-    <form method="POST" action="{{ route('admin.puntos.update', $punto->id) }}">
+    <form method="POST" action="{{ route('admin.puntos.update', $punto->id) }}" id="frm_punto_encuentro">
         @csrf
         @method('PUT')
 
@@ -68,6 +68,62 @@
         });
     }
 </script>
+
+<script>
+    $(document).ready(function () {
+        $("#frm_punto_encuentro").validate({
+            rules: {
+                nombre: {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 50
+                },
+                capacidad: {
+                    required: true,
+                    number: true,
+                    min: 1,
+                    max: 10000
+                },
+                responsable: {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 50
+                },
+                latitud: {
+                    required: true
+                },
+                longitud: {
+                    required: true
+                }
+            },
+            messages: {
+                nombre: {
+                    required: "El nombre es obligatorio",
+                    minlength: "Debe tener al menos 3 caracteres",
+                    maxlength: "Nombre demasiado largo (máx. 50 caracteres)"
+                },
+                capacidad: {
+                    required: "La capacidad es obligatoria",
+                    number: "Debe ingresar un número válido",
+                    min: "La capacidad mínima es 1",
+                    max: "Capacidad excesiva (máx. 10000 personas)"
+                },
+                responsable: {
+                    required: "El nombre del responsable es obligatorio",
+                    minlength: "Debe tener al menos 3 caracteres",
+                    maxlength: "Nombre demasiado largo (máx. 50 caracteres)"
+                },
+                latitud: {
+                    required: "Debe seleccionar una ubicación en el mapa"
+                },
+                longitud: {
+                    required: "Debe seleccionar una ubicación en el mapa"
+                }
+            }
+        });
+    });
+</script>
+
 
 
 @endsection

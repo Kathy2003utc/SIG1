@@ -5,7 +5,7 @@
 
 <div class="row justify-content-center">
     <div class="col-md-10 col-lg-8">
-        <form action="{{ route('admin.ZonasRiesgo.store') }}" method="POST" class="card shadow p-4 bg-light">
+        <form id="form_riesgo" action="{{ route('admin.ZonasRiesgo.store') }}" method="POST" class="card shadow p-4 bg-light">
             @csrf
 
             {{-- Datos generales --}}
@@ -139,5 +139,86 @@
         }
     }
 </script>
+
+<script>
+    $(document).ready(function () {
+        $("#form_riesgo").validate({
+            rules: {
+                nombre: {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 100
+                },
+                descripcion: {
+                    required: true,
+                    minlength: 10,
+                    maxlength: 255
+                },
+                nivel: {
+                    required: true
+                },
+                latitud1: { required: true },
+                longitud1: { required: true },
+                latitud2: { required: true },
+                longitud2: { required: true },
+                latitud3: { required: true },
+                longitud3: { required: true },
+                latitud4: { required: true },
+                longitud4: { required: true },
+            },
+            messages: {
+                nombre: {
+                    required: "El nombre es obligatorio",
+                    minlength: "Debe tener al menos 3 caracteres",
+                    maxlength: "Máximo 100 caracteres"
+                },
+                descripcion: {
+                    required: "La descripción es obligatoria",
+                    minlength: "Mínimo 10 caracteres",
+                    maxlength: "Máximo 255 caracteres"
+                },
+                nivel: {
+                    required: "Seleccione un nivel de riesgo"
+                },
+                latitud1: { required: "Falta coordenada 1" },
+                longitud1: { required: "Falta coordenada 1" },
+                latitud2: { required: "Falta coordenada 2" },
+                longitud2: { required: "Falta coordenada 2" },
+                latitud3: { required: "Falta coordenada 3" },
+                longitud3: { required: "Falta coordenada 3" },
+                latitud4: { required: "Falta coordenada 4" },
+                longitud4: { required: "Falta coordenada 4" }
+            },
+            submitHandler: function (form) {
+                // Validación adicional para evitar zonas duplicadas
+                const coords = [];
+                for (let i = 1; i <= 4; i++) {
+                    let lat = $(`#latitud${i}`).val();
+                    let lng = $(`#longitud${i}`).val();
+                    coords.push(`${lat},${lng}`);
+                }
+
+                let duplicado = false;
+                const coordsUnicas = new Set(coords);
+                if (coordsUnicas.size < coords.length) {
+                    duplicado = true;
+                }
+
+                if (duplicado) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Coordenadas duplicadas',
+                        text: 'No puedes registrar una zona con puntos repetidos.'
+                    });
+                    return false;
+                }
+
+                // Si todo está OK, enviar el formulario
+                form.submit();
+            }
+        });
+    });
+</script>
+
 
 @endsection
