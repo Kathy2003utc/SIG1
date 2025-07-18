@@ -5,13 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\Models\ZonaSegura;
+use App\Models\puntoEncuentro;
 
 class UserController extends Controller
 {
     public function index()
     {
-        $usuarios = User::all();
-        return view('user.puntos.index', compact('usuarios'));
+        $zonasSeguras = ZonaSegura::all();
+        return view('user.puntos.index', compact('zonasSeguras'));
     }
 
     public function create()

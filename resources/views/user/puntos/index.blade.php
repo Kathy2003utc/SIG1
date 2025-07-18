@@ -47,12 +47,12 @@
                         <td>{{ $zona->latitud }}<br>{{ $zona->longitud }}</td>
                         <td>
                             {{-- Botón Editar --}}
-                            <a href="{{ route('admin.ZonasSeguras.edit', $zona->id) }}" class="btn btn-warning btn-sm">
+                            <a href="{{ route('user.ZonasSeguras.edit', $zona->id) }}" class="btn btn-warning btn-sm">
                                 <i class="fas fa-edit"></i> Editar
                             </a>
 
                             {{-- Formulario Eliminar con confirmación SweetAlert --}}
-                            <form id="delete-form-{{ $zona->id }}" action="{{ route('admin.ZonasSeguras.destroy', $zona->id) }}" method="POST" style="display:inline-block;">
+                            <form id="delete-form-{{ $zona->id }}" action="{{ route('user.ZonasSeguras.destroy', $zona->id) }}" method="POST" style="display:inline-block;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="button" class="btn btn-danger btn-sm" onclick="confirmarEliminacion({{ $zona->id }}, '{{ $zona->nombre }}')">

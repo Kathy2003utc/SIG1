@@ -4,7 +4,7 @@
 <div class="container">
     <h1 class="mb-4">Crear Nuevo Punto de Encuentro</h1>
 
-    <form method="POST" action="{{ route('admin.puntos.store') }}">
+    <form method="POST" action="{{ route('user.puntos.store') }}">
         @csrf
 
         <div class="mb-3">
@@ -35,7 +35,7 @@
         <div id="mapa" style="height: 400px; border: 1px solid #ccc;" class="mb-3"></div>
 
         <button type="submit" class="btn btn-success">Guardar</button>
-        <a href="{{ route('admin.puntos.index') }}" class="btn btn-secondary">Cancelar</a>
+        <a href="{{ route('user.puntos.index') }}" class="btn btn-secondary">Cancelar</a>
     </form>
 </div>
 

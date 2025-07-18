@@ -4,7 +4,7 @@
 <div class="container">
     <h1 class="mb-4">Editar Punto de Encuentro</h1>
 
-    <form method="POST" action="{{ route('admin.puntos.update', $punto->id) }}">
+    <form method="POST" action="{{ route('user.puntos.update', $punto->id) }}">
         @csrf
         @method('PUT')
 
@@ -36,7 +36,7 @@
         <div id="mapa" style="height: 400px; border: 1px solid #ccc;" class="mb-3"></div>
 
         <button type="submit" class="btn btn-success">Actualizar</button>
-        <a href="{{ route('admin.puntos.index') }}" class="btn btn-secondary">Cancelar</a>
+        <a href="{{ route('user.puntos.index') }}" class="btn btn-secondary">Cancelar</a>
     </form>
 </div>
 
