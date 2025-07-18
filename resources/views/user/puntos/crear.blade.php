@@ -2,7 +2,7 @@
 
 @section('contenido')
 <div class="container">
-    <h1 class="mb-4">Crear Nuevo Punto de Encuentro</h1>
+    <h1 class="mb-4">Crear Punto de Encuentro</h1>
 
     <form method="POST" action="{{ route('user.puntos.store') }}">
         @csrf
