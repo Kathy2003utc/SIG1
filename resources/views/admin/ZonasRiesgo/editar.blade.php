@@ -70,14 +70,15 @@
             mapTypeId: google.maps.MapTypeId.ROADMAP
         });
 
-        // Carga coordenadas existentes
-        const coords = [];
-        @for ($i = 1; $i <= 4; $i++)
-            coords.push({
-                lat: parseFloat({{ $riesgo->{'latitud'.$i} }}),
-                lng: parseFloat({{ $riesgo->{'longitud'.$i} }})
-            });
-        @endfor
+        // Cargar coordenadas del riesgo
+        const coords = [
+            @for ($i = 1; $i <= 4; $i++)
+                {
+                    lat: parseFloat({{ $riesgo->{'latitud'.$i} ?? 0 }}),
+                    lng: parseFloat({{ $riesgo->{'longitud'.$i} ?? 0 }})
+                }{{ $i < 4 ? ',' : '' }}
+            @endfor
+        ];
 
         coords.forEach((coord, index) => {
             const marker = new google.maps.Marker({
@@ -123,11 +124,14 @@
     }
 
     function reiniciarMapa() {
+        // Elimina todos los marcadores
         marcadores.forEach(m => m.setMap(null));
         marcadores = [];
+
         if (poligono) poligono.setMap(null);
         poligono = null;
 
+        // Limpia inputs
         for (let i = 1; i <= 4; i++) {
             document.getElementById(`latitud${i}`).value = '';
             document.getElementById(`longitud${i}`).value = '';

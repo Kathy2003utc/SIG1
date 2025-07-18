@@ -24,14 +24,15 @@
                 { lat: parseFloat(zona.latitud4), lng: parseFloat(zona.longitud4) }
             ];
 
-            // Determinar color según el nivel
-            let color = "#00FF00"; // verde por defecto
+            // Color por nivel de riesgo
+            let color = "#00FF00"; // Verde por defecto
             if (zona.nivel.toLowerCase() === 'alto') {
-                color = "#FF0000"; // rojo
+                color = "#FF0000"; // Rojo
             } else if (zona.nivel.toLowerCase() === 'medio') {
-                color = "#FFA500"; // naranja
+                color = "#FFA500"; // Naranja
             }
 
+            // Crear polígono
             const poligono = new google.maps.Polygon({
                 paths: coordenadas,
                 strokeColor: color,
@@ -42,11 +43,26 @@
                 map: mapa
             });
 
-            const centroZona = coordenadas[0]; // puede ajustarse si deseas centro exacto
-            const info = new google.maps.InfoWindow({
-                content: `<strong>${zona.nombre}</strong><br>${zona.descripcion}<br><b>Nivel:</b> ${zona.nivel}`
+            // Crear InfoWindow
+            const infoWindow = new google.maps.InfoWindow({
+                content: `<strong>${zona.nombre}</strong><br><b>Nivel de riesgo:</b> ${zona.nivel}`
             });
 
+            // Obtener punto central aproximado (puede mejorarse)
+            const centroZona = coordenadas[0];
+
+            // Mostrar InfoWindow al pasar el mouse
+            poligono.addListener("mouseover", (e) => {
+                infoWindow.setPosition(e.latLng);
+                infoWindow.open(mapa);
+            });
+
+            // Ocultar InfoWindow al quitar el mouse
+            poligono.addListener("mouseout", () => {
+                infoWindow.close();
+            });
+
+            // (Opcional) Agregar marcador con ícono personalizado
             const marker = new google.maps.Marker({
                 position: centroZona,
                 map: mapa,
@@ -56,8 +72,6 @@
                     scaledSize: new google.maps.Size(40, 40)
                 }
             });
-
-            marker.addListener('click', () => info.open(mapa, marker));
         });
     }
 </script>
