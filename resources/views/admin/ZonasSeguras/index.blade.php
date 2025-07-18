@@ -96,7 +96,6 @@ $(document).ready(function() {
 });
 </script>
 
-{{-- Confirmación con SweetAlert2 --}}
 <script>
     function confirmarEliminacion(id, nombre) {
         Swal.fire({
