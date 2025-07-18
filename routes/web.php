@@ -96,6 +96,8 @@ Route::prefix('admin')->middleware('auth:admin')->name('admin.')->group(function
 
     Route::get('/admin/puntos/reporte-pdf', [PuntoEncuentroController::class, 'reportePdf'])->name('puntos.reportePdf');
 
+    Route::get('/mapa-zonas-riesgo', [RiesgoController::class, 'mapaPublico'])->name('publico.mapa_zonas_riesgo');
+
 
 
 });

@@ -14,6 +14,12 @@
             <i class="fas fa-file-pdf"></i> Generar reporte PDF
         </a>
 
+        <a href="{{ route('admin.publico.mapa_zonas_riesgo') }}" class="btn btn-primary">
+            Ver Mapa Público de Zonas de Riesgo
+        </a>
+
+
+
 
         <br>
 

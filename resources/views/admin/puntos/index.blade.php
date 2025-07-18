@@ -7,9 +7,6 @@
     <a href="{{ route('admin.puntos.create') }}" class="btn btn-primary mb-3">
         <i class="fas fa-plus"></i> Nuevo Punto
     </a>
-    <a href="{{ route('admin.puntos.mapa') }}" class="btn btn-success mb-3">
-        <i class="fas fa-map-marker-alt"></i> Ver Mapa Público
-    </a>
 
     <a href="{{ route('admin.puntos.reporte') }}" class="btn btn-danger mb-3">
         <i class="fas fa-file-pdf"></i> Generar Reporte
@@ -68,27 +65,67 @@
 </div>
 
 <script>
+    let mapa;
+    const centroInicial = { lat: -0.9374805, lng: -78.6161327 };
+    const puntos = @json($puntos);
+
     function initMap() {
-        const mapa = new google.maps.Map(document.getElementById('mapa'), {
+        mapa = new google.maps.Map(document.getElementById('mapa'), {
+            center: centroInicial,
             zoom: 12,
-            center: { lat: -0.9374805, lng: -78.6161327 }
         });
 
-        const iconoPersonalizado = {
-            url: '/images/marker-icon.png', // Cambia la ruta si tienes otro icono
-            scaledSize: new google.maps.Size(40, 40)
-        };
+        puntos.forEach(punto => {
+            if (punto.latitud && punto.longitud) {
+                const pos = {
+                    lat: parseFloat(punto.latitud),
+                    lng: parseFloat(punto.longitud)
+                };
 
-        @foreach($puntos as $punto)
-            new google.maps.Marker({
-                position: { lat: {{ $punto->latitud }}, lng: {{ $punto->longitud }} },
-                map: mapa,
-                title: "{{ $punto->nombre }}",
-                icon: iconoPersonalizado
-            });
-        @endforeach
+                const iconUrl = punto.logo_url ? `/${punto.logo_url}` : null;
+
+                const marker = new google.maps.Marker({
+                    position: pos,
+                    map: mapa,
+                    icon: iconUrl ? {
+                        url: iconUrl,
+                        scaledSize: new google.maps.Size(50, 50)
+                    } : null,
+                    title: punto.nombre
+                });
+
+                const infowindow = new google.maps.InfoWindow({
+                    content: `
+                        <div style="
+                            font-family: Arial, sans-serif;
+                            color: #004d00;
+                            background-color: #d9f2d9;
+                            padding: 10px 15px;
+                            border-radius: 8px;
+                            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+                            min-width: 180px;
+                            line-height: 1.4;
+                        ">
+                            <h3 style="margin-top: 0; margin-bottom: 8px; font-size: 18px; color: #2d572c;">${punto.nombre}</h3>
+                            <p style="margin: 0; font-weight: bold;">Capacidad: <span style="color: #27632a;">${punto.capacidad}</span></p>
+                            <p style="margin: 0;">Responsable: <span style="color: #27632a;">${punto.responsable}</span></p>
+                        </div>`
+                });
+
+                marker.addListener('mouseover', () => infowindow.open(mapa, marker));
+                marker.addListener('mouseout', () => infowindow.close());
+            }
+        });
     }
+
+    window.initMap = initMap;
 </script>
+
+
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDdYzugNC_QlesLopg6J4884TRsBzvusjg&callback=initMap">
+</script>
+
 
 
 
