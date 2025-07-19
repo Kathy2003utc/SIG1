@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use App\Models\ZonaSegura;
+use App\Models\zonaSegura;
 use App\Models\puntoEncuentro;
 
 class UserController extends Controller
@@ -50,6 +50,12 @@ class UserController extends Controller
     {
         $puntoEncuentros=puntoEncuentro::all();
         return view('user.usuarioPuntos', compact('puntoEncuentros'));
+    }
+
+    public function userZonas() 
+    {
+        $puntosSeguros=ZonaSegura::all();
+        return view('user.usuarioSeguros', compact('puntosSeguros'));
     }
 }
 

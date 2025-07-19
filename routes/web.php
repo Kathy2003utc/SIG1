@@ -18,6 +18,7 @@ Route::get('/', function () {
 });
 
 Route::get('/user/usuarioPuntos', [UserController::class, 'userPuntos']);
+Route::get('/user/usuarioSeguros', [UserController::class, 'userZonas']);
 
 // Rutas para admin
 Route::prefix('admin')->name('admin.')->group(function () {
