@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\zonaSegura;
 use App\Models\puntoEncuentro;
+use App\Models\Riesgo;
 
 class UserController extends Controller
 {
@@ -56,6 +57,12 @@ class UserController extends Controller
     {
         $puntosSeguros=ZonaSegura::all();
         return view('user.usuarioSeguros', compact('puntosSeguros'));
+    }
+
+    public function userRiesgos()
+    {
+        $puntosRiesgo=Riesgo::all();
+        return view('user.usuarioRiesgos', compact('puntosRiesgo'));
     }
 }
 
