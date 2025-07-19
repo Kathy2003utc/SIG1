@@ -17,6 +17,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/user/usuarioPuntos', [UserController::class, 'userPuntos']);
+
 // Rutas para admin
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('login', [AdminAuthController::class, 'showLoginForm'])->name('login');
@@ -102,52 +104,6 @@ Route::prefix('admin')->middleware('auth:admin')->name('admin.')->group(function
 
 });
 
-Route::middleware(['auth'])->prefix('user')->name('user.')->group(function () {
-    Route::resource('usuarios', UserController::class);
-    // Rutas existentes para ZonasRiesgo y ZonasSeguras
-    Route::resource('ZonasRiesgo', RiesgoController::class)->names([
-        'index'   => 'ZonasRiesgo.index',
-        'create'  => 'ZonasRiesgo.create',
-        'store'   => 'ZonasRiesgo.store',
-        'show'    => 'ZonasRiesgo.show',
-        'edit'    => 'ZonasRiesgo.edit',
-        'update'  => 'ZonasRiesgo.update',
-        'destroy' => 'ZonasRiesgo.destroy',
-    ]);
 
-    Route::resource('ZonasSeguras', zonaSeguraController::class)->names([
-        'index'   => 'ZonasSeguras.index',
-        'create'  => 'ZonasSeguras.create',
-        'store'   => 'ZonasSeguras.store',
-        'show'    => 'ZonasSeguras.show',
-        'edit'    => 'ZonasSeguras.edit',
-        'update'  => 'ZonasSeguras.update',
-        'destroy' => 'ZonasSeguras.destroy',
-    ]);
-
-    // Aquí agregamos las rutas para Puntos de Encuentro
-    Route::resource('puntos', PuntoEncuentroController::class)->names([
-        'index'   => 'puntos.index',
-        'create'  => 'puntos.create',
-        'store'   => 'puntos.store',
-        'show'    => 'puntos.show',
-        'edit'    => 'puntos.edit',
-        'update'  => 'puntos.update',
-        'destroy' => 'puntos.destroy',
-    ]);
-
-    Route::get('reportes/zonas', [ReportesController::class, 'generarPDF'])
-      ->name('reportes.zonas')
-      ->middleware('auth:admin');
-
-    Route::get('mapa-zonas', function () {
-        $zonas = Riesgo::all();
-        return view('mapas.publico', compact('zonas'));
-    })->name('mapa.zonas.publico');
-
-    // routes/web.php  (dentro del prefix('admin')->name('admin.') …)
-    Route::get('ZonasRiesgo/mapa', [RiesgoController::class, 'mapa'])
-        ->name('ZonasRiesgo.mapa');
-});
 
 
