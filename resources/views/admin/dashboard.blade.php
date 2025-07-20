@@ -17,11 +17,6 @@
             publicada esté correctamente validada y disponible para los usuarios autorizados.
         </p>
     </div>
-
-    <form action="{{ route('admin.logout') }}" method="POST" class="text-center mt-4">
-        @csrf
-        <button type="submit" class="btn btn-danger">Cerrar sesión</button>
-    </form>
 </div>
 
 @endsection

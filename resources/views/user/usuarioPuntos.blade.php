@@ -1,6 +1,5 @@
 @extends('layout.appUser')
 @section('contenido')
-<h1>BIENVENIDO AL MAPA</h1>
 
 <div class="container mt-5">
     <h2 class="text-center mb-5">Puntos de Encuentro Disponibles</h2>

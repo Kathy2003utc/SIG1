@@ -69,28 +69,37 @@
 	<!-- NAVBAR -->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="ftco-navbar">
 		<div class="container">
-			<a class="navbar-brand" href="{{ url('/') }}">Pacific<span> Agencia CRUD</span></a>
+			<a class="navbar-brand" href="{{ url('/') }}">GeoAlerta<span> MAPAS</span></a>
+
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
-			<div class="collapse navbar-collapse" id="ftco-nav">
-				<ul class="navbar-nav ms-auto">
-					<li class="nav-item"><a href="{{ route('admin.puntos.mapa') }}" class="nav-link">Lista de puntos Turisticos</a></li>
-			</div>
 
 			<div class="collapse navbar-collapse" id="ftco-nav">
-				<ul class="navbar-nav ms-auto">
-					<li class="nav-item"><a href="{{ route('admin.ZonasSeguras.mapa') }}" class="nav-link">Lista de zonas de riesgo</a></li>
+				<ul class="navbar-nav ms-auto align-items-center">
+					<li class="nav-item">
+						<a href="{{ route('user.dashboard') }}" class="nav-link">Inicio</a>
+					</li>
+					<li class="nav-item">
+						<a href="{{ url('/user/usuarioSeguros') }}" class="nav-link">Zonas Seguras</a>
+					</li>
+					<li class="nav-item">
+						<a href="{{ url('/user/usuarioPuntos') }}" class="nav-link">Puntos de Encuentro</a>
+					</li>
+					<li class="nav-item">
+						<a href="{{ url('/user/usuarioRiesgos') }}" class="nav-link">Zonas de Riesgo</a>
+					</li>
+					<li class="nav-item ms-3">
+						<form action="{{ route('logout') }}" method="POST" class="d-inline">
+							@csrf
+							<button type="submit" class="btn btn-outline-light btn-sm">Cerrar sesión</button>
+						</form>
+					</li>
+				</ul>
 			</div>
-
-			<div class="collapse navbar-collapse" id="ftco-nav">
-				<ul class="navbar-nav ms-auto">
-					<li class="nav-item"><a href="{{ route('admin.puntos.mapa') }}" class="nav-link">Lista de puntos Turisticos</a></li>
-			</div>
-
-
 		</div>
 	</nav>
+
 
 	@yield('contenido')
 

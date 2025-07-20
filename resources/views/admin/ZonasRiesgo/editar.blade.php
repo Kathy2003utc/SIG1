@@ -1,7 +1,7 @@
 @extends('layout.app')
 
 @section('contenido')
-<h1 class="text-center">Editar Riesgo</h1>
+<h1 class="text-center mb-4">Editar Riesgo</h1>
 
 <div class="row justify-content-center">
     <div class="col-md-10 col-lg-8">
@@ -9,53 +9,63 @@
             @csrf
             @method('PUT')
 
-            {{-- Datos generales --}}
-            <label><b>Nombre del Riesgo:</b></label>
-            <input type="text" name="nombre" class="form-control" required value="{{ $riesgo->nombre }}">
-            <br>
+            {{-- Nombre --}}
+            <div class="mb-3">
+                <label for="nombre" class="form-label"><b>Nombre del Riesgo:</b></label>
+                <input type="text" id="nombre" name="nombre" class="form-control" required value="{{ old('nombre', $riesgo->nombre) }}">
+            </div>
 
-            <label><b>Descripción:</b></label>
-            <textarea name="descripcion" class="form-control" required>{{ $riesgo->descripcion }}</textarea>
-            <br>
+            {{-- Descripción --}}
+            <div class="mb-3">
+                <label for="descripcion" class="form-label"><b>Descripción:</b></label>
+                <textarea id="descripcion" name="descripcion" class="form-control" rows="3" required>{{ old('descripcion', $riesgo->descripcion) }}</textarea>
+            </div>
 
-            <label class="form-label"><b>Nivel de Riesgo:</b></label>
-            <select name="nivel" class="form-select" required>
-                <option value="" disabled>Seleccione un nivel</option>
-                <option value="Alto" {{ $riesgo->nivel == 'Alto' ? 'selected' : '' }}>ALTO</option>
-                <option value="Medio" {{ $riesgo->nivel == 'Medio' ? 'selected' : '' }}>MEDIO</option>
-                <option value="Bajo" {{ $riesgo->nivel == 'Bajo' ? 'selected' : '' }}>BAJO</option>
-            </select>
+            {{-- Nivel de riesgo --}}
+            <div class="mb-4">
+                <label for="nivel" class="form-label"><b>Nivel de Riesgo:</b></label>
+                <select id="nivel" name="nivel" class="form-select" required>
+                    <option value="" disabled {{ old('nivel', $riesgo->nivel) ? '' : 'selected' }}>Seleccione un nivel</option>
+                    <option value="Alto" {{ old('nivel', $riesgo->nivel) == 'Alto' ? 'selected' : '' }}>ALTO</option>
+                    <option value="Medio" {{ old('nivel', $riesgo->nivel) == 'Medio' ? 'selected' : '' }}>MEDIO</option>
+                    <option value="Bajo" {{ old('nivel', $riesgo->nivel) == 'Bajo' ? 'selected' : '' }}>BAJO</option>
+                </select>
+            </div>
 
-            {{-- Inputs coordenadas --}}
-            @for ($i = 1; $i <= 4; $i++)
-                <div class="row mt-4">
-                    <div class="col-md-6">
-                        <label><b>Coordenada N°{{ $i }}</b></label>
-                        <div class="input-group mb-2">
-                            <span class="input-group-text">Latitud</span>
-                            <input type="text" id="latitud{{ $i }}" name="latitud{{ $i }}" class="form-control" value="{{ $riesgo->{'latitud'.$i} }}" readonly>
-                            <br><br>
-                            <span class="input-group-text">Longitud</span>
-                            <input type="text" id="longitud{{ $i }}" name="longitud{{ $i }}" class="form-control" value="{{ $riesgo->{'longitud'.$i} }}" readonly>
+            {{-- Coordenadas --}}
+            <div class="mb-4">
+                <h5><b>Coordenadas (Arrastra los marcadores en el mapa):</b></h5>
+                <div class="row g-3">
+                    @for ($i = 1; $i <= 4; $i++)
+                        <div class="col-md-6">
+                            <label class="form-label">Coordenada N°{{ $i }}</label>
+                            <div class="input-group mb-2">
+                                <span class="input-group-text">Latitud</span>
+                                <input type="text" id="latitud{{ $i }}" name="latitud{{ $i }}" class="form-control" value="{{ old('latitud'.$i, $riesgo->{'latitud'.$i}) }}" readonly required>
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-text">Longitud</span>
+                                <input type="text" id="longitud{{ $i }}" name="longitud{{ $i }}" class="form-control" value="{{ old('longitud'.$i, $riesgo->{'longitud'.$i}) }}" readonly required>
+                            </div>
                         </div>
-                    </div>
+                    @endfor
                 </div>
-            @endfor
+            </div>
 
-            {{-- Mapa principal --}}
+            {{-- Mapa --}}
             <div id="mapa-poligono" style="height: 500px; width:100%; border:2px solid #2563eb;" class="rounded mb-4"></div>
 
-            <center>
-                <button class="btn btn-success">Actualizar</button>
-                &nbsp;&nbsp;
-                <a href="{{ route('admin.ZonasRiesgo.index') }}" class="btn btn-secondary">Cancelar</a>
-                &nbsp;&nbsp;
+            {{-- Botones --}}
+            <div class="text-center">
+                <button type="submit" class="btn btn-success me-2">Actualizar</button>
+                <a href="{{ route('admin.ZonasRiesgo.index') }}" class="btn btn-secondary me-2">Cancelar</a>
                 <button type="button" class="btn btn-warning" onclick="reiniciarMapa()">Reiniciar Mapa</button>
-            </center>
+            </div>
         </form>
     </div>
 </div>
 
+{{-- Google Maps y lógica --}}
 <script>
     let mapaPoligono;
     let marcadores = [];
@@ -70,28 +80,43 @@
             mapTypeId: google.maps.MapTypeId.ROADMAP
         });
 
-        // Cargar coordenadas del riesgo
         const coords = [
             @for ($i = 1; $i <= 4; $i++)
                 {
-                    lat: parseFloat({{ $riesgo->{'latitud'.$i} ?? 0 }}),
-                    lng: parseFloat({{ $riesgo->{'longitud'.$i} ?? 0 }})
+                    lat: "{{ $riesgo->{'latitud'.$i} ?? '' }}",
+                    lng: "{{ $riesgo->{'longitud'.$i} ?? '' }}"
                 }{{ $i < 4 ? ',' : '' }}
             @endfor
-        ];
+        ]
+        .filter(c => c.lat !== '' && c.lng !== '');
 
-        coords.forEach((coord, index) => {
+        if(coords.length === 0) {
+            mapaPoligono.setCenter(centro);
+            return;
+        }
+
+        mapaPoligono.setCenter({
+            lat: parseFloat(coords[0].lat),
+            lng: parseFloat(coords[0].lng)
+        });
+
+        coords.forEach((coord, idx) => {
+            const latNum = parseFloat(coord.lat);
+            const lngNum = parseFloat(coord.lng);
+
+            if(isNaN(latNum) || isNaN(lngNum)) return;
+
             const marker = new google.maps.Marker({
-                position: coord,
+                position: { lat: latNum, lng: lngNum },
                 map: mapaPoligono,
                 draggable: true,
-                label: `${index + 1}`
+                label: `${idx + 1}`
             });
 
-            setInputs(index, coord);
+            actualizarInputs(idx, marker.getPosition());
 
             marker.addListener("dragend", () => {
-                setInputs(index, marker.getPosition());
+                actualizarInputs(idx, marker.getPosition());
                 dibujarPoligono();
             });
 
@@ -101,7 +126,7 @@
         dibujarPoligono();
     }
 
-    function setInputs(idx, latLng) {
+    function actualizarInputs(idx, latLng) {
         document.getElementById(`latitud${idx + 1}`).value = latLng.lat().toFixed(7);
         document.getElementById(`longitud${idx + 1}`).value = latLng.lng().toFixed(7);
     }
@@ -110,9 +135,9 @@
         if (poligono) poligono.setMap(null);
 
         if (marcadores.length >= 3) {
-            const coords = marcadores.map(m => m.getPosition());
+            const paths = marcadores.map(m => m.getPosition());
             poligono = new google.maps.Polygon({
-                paths: coords,
+                paths: paths,
                 strokeColor: "#ff0000",
                 strokeOpacity: 0.8,
                 strokeWeight: 2,
@@ -124,23 +149,22 @@
     }
 
     function reiniciarMapa() {
-        // Elimina todos los marcadores
         marcadores.forEach(m => m.setMap(null));
         marcadores = [];
 
         if (poligono) poligono.setMap(null);
         poligono = null;
 
-        // Limpia inputs
         for (let i = 1; i <= 4; i++) {
             document.getElementById(`latitud${i}`).value = '';
             document.getElementById(`longitud${i}`).value = '';
         }
     }
 
-    window.addEventListener('load', initMap);
+    window.initMap = initMap;
 </script>
 
+{{-- Validación con jQuery --}}
 <script>
     $(document).ready(function () {
         $("#form_riesgo").validate({
@@ -191,21 +215,16 @@
                 longitud4: { required: "Falta coordenada 4" }
             },
             submitHandler: function (form) {
-                // Validación adicional para evitar zonas duplicadas
+                // Validar que no haya coordenadas duplicadas
                 const coords = [];
                 for (let i = 1; i <= 4; i++) {
-                    let lat = $(`#latitud${i}`).val();
-                    let lng = $(`#longitud${i}`).val();
+                    const lat = $(`#latitud${i}`).val();
+                    const lng = $(`#longitud${i}`).val();
                     coords.push(`${lat},${lng}`);
                 }
 
-                let duplicado = false;
-                const coordsUnicas = new Set(coords);
-                if (coordsUnicas.size < coords.length) {
-                    duplicado = true;
-                }
-
-                if (duplicado) {
+                const uniqueCoords = new Set(coords);
+                if (uniqueCoords.size < coords.length) {
                     Swal.fire({
                         icon: 'error',
                         title: 'Coordenadas duplicadas',
@@ -214,11 +233,11 @@
                     return false;
                 }
 
-                // Si todo está OK, enviar el formulario
                 form.submit();
             }
         });
     });
 </script>
+
 
 @endsection

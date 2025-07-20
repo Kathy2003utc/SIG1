@@ -1,6 +1,7 @@
 @extends('layout.app')
 
 @section('contenido')
+<br>
 <div class="container">
     <h1 class="mb-4">Puntos de Encuentro</h1>
 
@@ -12,22 +13,15 @@
         <i class="fas fa-file-pdf"></i> Generar Reporte
     </a>
 
-    <a href="{{ route('admin.puntos.reportePdf') }}" class="btn btn-danger mb-3">
-        <i class="fas fa-file-pdf"></i> Descargar Reporte PDF
-    </a>
-
-
-
-
-
-
+    <br><br>
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
     <div id="mapa" style="height: 500px; width: 100%; margin-bottom: 20px;"></div>
 
-    <table class="table table-bordered">
+    <br><br>
+    <table class="table table-bordered" id="zonas-table">
         <thead>
             <tr>
                 <th>Nombre</th>
@@ -39,7 +33,7 @@
             </tr>
         </thead>
         <tbody>
-            @forelse ($puntos as $punto)
+            @foreach ($puntos as $punto)
                 <tr>
                     <td>{{ $punto->nombre }}</td>
                     <td>{{ $punto->capacidad }}</td>
@@ -55,11 +49,7 @@
                         </form>
                     </td>
                 </tr>
-            @empty
-            <tr>
-                <td colspan="8" class="text-center">No hay riesgos registrados.</td>
-            </tr>
-            @endforelse
+            @endforeach
         </tbody>
     </table>
 </div>
@@ -121,12 +111,23 @@
     window.initMap = initMap;
 </script>
 
-
 <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDdYzugNC_QlesLopg6J4884TRsBzvusjg&callback=initMap">
 </script>
 
-
-
+<!-- DataTables JS -->
+<script>
+    $(document).ready(function() {
+        $('#zonas-table').DataTable({
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/2.3.1/i18n/es-ES.json'
+            },
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ]
+        });
+    });
+</script>
 
 @endsection

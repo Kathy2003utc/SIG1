@@ -77,24 +77,37 @@
 	<!-- NAVBAR -->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="ftco-navbar">
 		<div class="container">
-			<a class="navbar-brand" href="{{ url('/') }}">Pacific<span> Agencia CRUD</span></a>
+			<a class="navbar-brand" href="{{ route('admin.dashboard') }}">GeoAlerta<span>MAPAS</span></a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<div class="collapse navbar-collapse" id="ftco-nav">
-				<ul class="navbar-nav ms-auto">
+				<ul class="navbar-nav ms-auto align-items-center">
+					
 					<li class="nav-item">
-						<a href="{{ route('admin.ZonasRiesgo.index') }}" class="nav-link">Lista de zonas de riesgo</a>
+						<a href="{{ route('admin.dashboard') }}" class="nav-link">Inicio</a>
+					</li>
+
+					<li class="nav-item">
+						<a href="{{ route('admin.ZonasRiesgo.index') }}" class="nav-link">Zonas de riesgo</a>
 					</li>
 					<li class="nav-item">
-						<a href="{{ route('admin.ZonasSeguras.index') }}" class="nav-link">Lista de zonas seguras</a>
+						<a href="{{ route('admin.ZonasSeguras.index') }}" class="nav-link">Zonas seguras</a>
 					</li>
 					<li class="nav-item">
-						<a href="{{ route('admin.puntos.index') }}" class="nav-link">Lista de puntos de reunion</a>
+						<a href="{{ route('admin.puntos.index') }}" class="nav-link">Puntos de reunión</a>
 					</li>
+					<li class="nav-item ms-3">
+						<form action="{{ route('admin.logout') }}" method="POST">
+							@csrf
+							<button type="submit" class="btn btn-outline-light btn-sm">Cerrar sesión</button>
+						</form>
+					</li>
+				</ul>
 			</div>
 		</div>
 	</nav>
+
 
 	@yield('contenido')
 

@@ -4,13 +4,6 @@
 <div class="container mt-5">
     <h1 class="text-center mb-4">Bienvenido, Usuario</h1>
 
-    <div class="text-center mb-4">
-        <form action="{{ route('logout') }}" method="POST" class="d-inline">
-            @csrf
-            <button type="submit" class="btn btn-outline-danger">Cerrar sesión</button>
-        </form>
-    </div>
-
     <div class="row justify-content-center">
         <!-- Zonas Seguras -->
         <div class="col-md-4 mb-4">

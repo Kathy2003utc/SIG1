@@ -6,22 +6,21 @@
 
 <div class="container mt-4">
     <div class="mx-auto" style="max-width: 1200px;">
-        <<a href="{{ route('admin.ZonasRiesgo.create') }}" class="btn btn-success mb-3">
-            <i class="fas fa-plus-circle"></i> Nueva Zona de riesgo
-        </a>
-    
-        <a href="{{ route('admin.reportes.zonas') }}" class="btn btn-outline-primary">
-            <i class="fas fa-file-pdf"></i> Generar reporte PDF
-        </a>
 
-        <a href="{{ route('admin.publico.mapa_zonas_riesgo') }}" class="btn btn-primary">
-            Ver Mapa Público de Zonas de Riesgo
-        </a>
+        <!-- Botones superiores bien alineados -->
+        <div class="d-flex flex-wrap justify-content-start gap-2 mb-4">
+            <a href="{{ route('admin.ZonasRiesgo.create') }}" class="btn btn-success">
+                <i class="fas fa-plus-circle"></i> Nueva Zona de Riesgo
+            </a>
 
+            <a href="{{ route('admin.reportes.zonas') }}" class="btn btn-outline-primary">
+                <i class="fas fa-file-pdf"></i> Generar Reporte PDF
+            </a>
 
-
-
-        <br>
+            <a href="{{ route('admin.publico.mapa_zonas_riesgo') }}" class="btn btn-primary">
+                <i class="fas fa-map-marked-alt"></i> Ver Mapa Público de Zonas de Riesgo
+            </a>
+        </div>
 
         {{-- Mensaje de éxito con SweetAlert --}}
         @if(session('success'))
@@ -35,8 +34,9 @@
             </script>
         @endif
 
+        <!-- Tabla de riesgos -->
         <div class="table-responsive">
-            <table class="table table-hover table-bordered align-middle">
+            <table class="table table-hover table-bordered align-middle" id="zonas-table">
                 <thead class="table-dark">
                     <tr>
                         <th>Nombre</th>
@@ -74,7 +74,6 @@
                                 </button>
                             </form>
                         </td>
-
                     </tr>
                     @empty
                     <tr>
@@ -87,47 +86,42 @@
     </div>
 </div>
 
-
+<!-- DataTables JS -->
 <script>
-$(document).ready(function() {
-    let table = new DataTable('#zonas-table', {
-        language: {
-            url: 'https://cdn.datatables.net/plug-ins/2.3.1/i18n/es-ES.json'
-        },
-        dom: 'Bfrtip',
-        buttons: [
-            'copy',
-            'csv',
-            'excel',
-            'pdf',
-            'print'
-        ]
-    });
-});
-</script>
-
-{{-- Script SweetAlert para confirmar eliminación --}}
-<script>
-document.querySelectorAll('.eliminar-formulario').forEach(form => {
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        Swal.fire({
-            title: '¿Estás seguro?',
-            text: 'Esta acción no se puede deshacer.',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#6c757d',
-            confirmButtonText: 'Sí, eliminar',
-            cancelButtonText: 'Cancelar'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                this.submit();
-            }
+    $(document).ready(function() {
+        $('#zonas-table').DataTable({
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/2.3.1/i18n/es-ES.json'
+            },
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ]
         });
     });
-});
 </script>
 
+<!-- SweetAlert confirmación de eliminación -->
+<script>
+    document.querySelectorAll('.eliminar-formulario').forEach(form => {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: 'Esta acción no se puede deshacer.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.submit();
+                }
+            });
+        });
+    });
+</script>
 
 @endsection

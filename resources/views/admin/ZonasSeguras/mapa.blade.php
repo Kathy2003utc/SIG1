@@ -3,25 +3,63 @@
 @section('contenido')
 <h2 class="text-center mt-3">Mapa Público de Zonas Seguras</h2>
 
-<div id="map" style="height: 600px; width: 100%; border: 2px solid #22c55e;" class="rounded my-4"></div>
+<!-- Filtro debajo del título, alineado a la derecha -->
+<div class="d-flex justify-content-end align-items-center mb-3" style="max-width: 400px; margin-left: auto; margin-right: 20px;">
+    <label for="filtroTipo" class="me-2 mb-0 fw-semibold">Filtrar por tipo de seguridad:</label>
+    <select id="filtroTipo" class="form-select form-select-sm" style="width: 180px;">
+        <option value="todos" selected>Todos</option>
+        <option value="Refugio">Refugio</option>
+        <option value="Zona de evacuacion">Zona de evacuacion</option>
+        <option value="Centro de salud">Centro de salud</option>
+    </select>
+</div>
+
+<!-- Contenedor del mapa con borde y bordes redondeados -->
+<div style="border: 2px solid #22c55e; border-radius: 8px; overflow: hidden;">
+    <div id="map" style="height: 600px; width: 100%;"></div>
+</div>
 
 <script>
+    let mapa;
+    let circulos = [];
+    let markers = [];
+    const zonas = @json($zonas);
+
     function initMap() {
         const centro = { lat: -0.9374805, lng: -78.6161327 };
-        const mapa = new google.maps.Map(document.getElementById("map"), {
+        mapa = new google.maps.Map(document.getElementById("map"), {
             zoom: 14,
             center: centro,
             mapTypeId: 'roadmap'
         });
 
-        const zonas = @json($zonas);
+        renderZonas('todos');
 
-        zonas.forEach(zona => {
+        document.getElementById('filtroTipo').addEventListener('change', function() {
+            renderZonas(this.value);
+        });
+    }
+
+    function clearMap() {
+        circulos.forEach(c => c.setMap(null));
+        circulos = [];
+
+        markers.forEach(m => m.setMap(null));
+        markers = [];
+    }
+
+    function renderZonas(filtro) {
+        clearMap();
+
+        const zonasFiltradas = filtro === 'todos'
+            ? zonas
+            : zonas.filter(z => z.tipo_seguridad.toLowerCase() === filtro.toLowerCase());
+
+        zonasFiltradas.forEach(zona => {
             const radio = parseFloat(zona.radio);
-            const centro = { lat: parseFloat(zona.latitud), lng: parseFloat(zona.longitud) };
+            const centroZona = { lat: parseFloat(zona.latitud), lng: parseFloat(zona.longitud) };
 
-            // Elegir color según el tipo de seguridad
-            let color = "#10b981"; // color por defecto (verde)
+            let color = "#10b981"; // verde por defecto
             switch (zona.tipo_seguridad.toLowerCase()) {
                 case 'refugio':
                     color = "#3b82f6"; // azul
@@ -41,9 +79,10 @@
                 fillColor: color,
                 fillOpacity: 0.35,
                 map: mapa,
-                center: centro,
+                center: centroZona,
                 radius: radio
             });
+            circulos.push(circulo);
 
             const info = new google.maps.InfoWindow({
                 content: `
@@ -56,14 +95,17 @@
             });
 
             const marcador = new google.maps.Marker({
-                position: centro,
+                position: centroZona,
                 map: mapa,
                 title: zona.nombre
             });
+            markers.push(marcador);
 
             marcador.addListener('click', () => info.open(mapa, marcador));
         });
     }
+
+    window.initMap = initMap;
 </script>
 
 @endsection
