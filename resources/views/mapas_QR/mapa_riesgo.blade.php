@@ -1,7 +1,7 @@
 @extends('layout.app')
 
 @section('contenido')
-<h2 class="text-center mt-3">Mapa de Zonas de Riesgo</h2>
+<h2 class="text-center mt-3">Mapa Público de Zonas de Riesgo</h2>
 
 <!-- Filtro debajo del título, alineado a la derecha -->
 <div class="d-flex justify-content-end align-items-center mb-3" style="max-width: 400px; margin-left: auto; margin-right: 20px;">

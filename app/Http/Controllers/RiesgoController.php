@@ -105,6 +105,12 @@ class RiesgoController extends Controller
         return view('admin.ZonasRiesgo.publico', compact('zonas'));
     }
 
+    public function mapaPublicoQR()
+    {
+        $zonas = Riesgo::all();
+        return view('mapas_QR.mapa_riesgo', compact('zonas'));
+    }
+
 
 
 

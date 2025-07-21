@@ -89,24 +89,18 @@ class PuntoEncuentroController extends Controller
         return view('admin.puntos.reporte', compact('puntos', 'qrCodeB64', 'mapa_url'));
     }
 
-    public function mapa()
+    public function mapaPublico()
     {
         $puntos = \App\Models\puntoEncuentro::all();
         return view('admin.puntos.mapa', compact('puntos'));
     }
 
-   
-
-    public function reportePdf()
+    public function mapaPublicoQR()
     {
         $puntos = \App\Models\puntoEncuentro::all();
-
-
-        $data = ['puntos' => $puntos];
-
-        $pdf = PDF::loadView('admin.puntos.reporte-pdf', $data)->setPaper('a4', 'portrait');
-
-        return $pdf->download('reporte_puntos_encuentro.pdf');
+        return view('mapas_QR.mapa_puntos', compact('puntos'));
     }
+
+
 
 }

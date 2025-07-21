@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use PDF;
 use App\Models\zonaSegura;
 use App\Models\Riesgo;
+use App\Models\puntoEncuentro;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class ReportesController extends Controller
@@ -121,8 +122,10 @@ class ReportesController extends Controller
         $zonas     = Riesgo::all();
         $mapa_url  = $this->generarImagenMapa();                    // imagen estática
         $qrCodeB64 = base64_encode(
-            \QrCode::format('png')->size(150)->generate(route('admin.mapa.zonas.publico'))
+            \QrCode::format('png')->size(150)->generate(route('mapa.riesgos.publico'))
         );
+
+
 
         $pdf = \PDF::loadView(
             'admin.ZonasRiesgo.zonas_pdf',                 // Blade completo
@@ -131,4 +134,60 @@ class ReportesController extends Controller
 
         return $pdf->stream('reporte_zonas.pdf');
     }
+
+    public function generarPDFZonasSeguras()
+    {
+        $zonas = zonaSegura::all();
+
+        $base = 'https://maps.googleapis.com/maps/api/staticmap';
+        $size = '800x600';
+        $apiKey = config('services.google_maps.key');
+
+        $markers = [];
+
+        foreach ($zonas as $zona) {
+            $markers[] = "color:green|label:S|{$zona->latitud},{$zona->longitud}";
+        }
+
+        $mapa_url = $base . '?size=' . $size .
+                    '&' . implode('&', array_map(fn($m) => 'markers=' . urlencode($m), $markers)) .
+                    '&key=' . $apiKey;
+
+        $qrCodeB64 = base64_encode(
+            \QrCode::format('png')->size(150)->generate(route('mapa.zonasSeguras.publico'))
+        );
+
+
+        $pdf = \PDF::loadView('admin.ZonasSeguras.zonas_seguras_pdf', compact('zonas', 'mapa_url', 'qrCodeB64'));
+        return $pdf->stream('reporte_zonas_seguras.pdf');
+    }
+
+    public function generarPDFPuntos()
+    {
+        $puntos = puntoEncuentro::all();
+
+        $base = 'https://maps.googleapis.com/maps/api/staticmap';
+        $size = '800x600';
+        $apiKey = config('services.google_maps.key');
+
+        $markers = [];
+
+        foreach ($puntos as $punto) {
+            $markers[] = "color:blue|label:P|{$punto->latitud},{$punto->longitud}";
+        }
+
+        $mapa_url = $base . '?size=' . $size .
+                    '&' . implode('&', array_map(fn($m) => 'markers=' . urlencode($m), $markers)) .
+                    '&key=' . $apiKey;
+
+        $qrCodeB64 = base64_encode(
+            \QrCode::format('png')->size(150)->generate(route('mapa.puntos.publico'))
+        );
+
+
+        $pdf = \PDF::loadView('admin.puntos.puntos_pdf', compact('puntos', 'mapa_url', 'qrCodeB64'));
+
+        return $pdf->stream('reporte_puntos_encuentro.pdf');
+    }
+    
 }

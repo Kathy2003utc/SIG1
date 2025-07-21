@@ -9,13 +9,13 @@
         <i class="fas fa-plus-circle"></i> Nueva Zona Segura
     </a>
    
-    <a href="{{ route('admin.ZonasSeguras.reporte') }}" class="btn btn-primary mb-3">
+    <a href="{{ route('admin.reportes.zonas_seguras') }}" class="btn btn-primary mb-3">
 
-        <i class="fas fa-map"></i> Vista previa del reporte
+        <i class="fas fa-file-pdf"></i> Reporte PDF
     </a>
 
     <a href="{{ route('admin.ZonasSeguras.mapa') }}" class="btn btn-success mb-3">
-        <i class="fas fa-map-marker-alt"></i> Ver Mapa Público
+        <i class="fas fa-map-marker-alt"></i> Ver Mapa
     </a>
 
 

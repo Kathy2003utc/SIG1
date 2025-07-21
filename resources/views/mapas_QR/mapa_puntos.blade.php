@@ -1,7 +1,7 @@
 @extends('layout.app')
 
 @section('contenido')
-<h2 class="text-center mt-3">Mapa de Puntos de Encuentro</h2>
+<h2 class="text-center mt-3">Mapa Público de Puntos de Encuentro</h2>
 
 <div id="mapa" style="height: 600px; width: 100%; border: 2px solid #16a34a;" class="rounded my-4"></div>
 

@@ -131,6 +131,12 @@ class zonaSeguraController extends Controller
         return view('admin.ZonasSeguras.reporte', compact('zonas', 'mapa_url', 'qrCodeB64'));
     }
 
+    public function mapaPublico()
+    {
+        $zonas = zonaSegura::all();
+        return view('mapas_QR.mapa_seguro', compact('zonas'));
+    }
+
 
 
 }

@@ -18,7 +18,7 @@
             </a>
 
             <a href="{{ route('admin.publico.mapa_zonas_riesgo') }}" class="btn btn-primary">
-                <i class="fas fa-map-marked-alt"></i> Ver Mapa Público de Zonas de Riesgo
+                <i class="fas fa-map-marker-alt"></i> Ver Mapa
             </a>
         </div>
 

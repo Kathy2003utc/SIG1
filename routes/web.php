@@ -87,12 +87,17 @@ Route::prefix('admin')->middleware('auth:admin')->name('admin.')->group(function
         return view('mapas.publico', compact('zonas'));
     })->name('mapa.zonas.publico');
 
+    Route::get('reportes/puntos', [ReportesController::class, 'generarPDFPuntos'])
+        ->name('reportes.puntos')
+        ->middleware('auth:admin');
     // routes/web.php  (dentro del prefix('admin')->name('admin.') …)
     Route::get('ZonasRiesgo/mapa', [RiesgoController::class, 'mapa'])
         ->name('ZonasRiesgo.mapa');
     Route::get('zonas-seguras/mapa', [zonaSeguraController::class, 'mapa'])->name('ZonasSeguras.mapa');
 
-    Route::get('zonas-seguras/reporte', [zonaSeguraController::class, 'reporte'])->name('ZonasSeguras.reporte');
+    Route::get('reportes/zonas-seguras', [ReportesController::class, 'generarPDFZonasSeguras'])
+        ->name('reportes.zonas_seguras')
+        ->middleware('auth:admin');
 
     Route::get('/admin/puntos/reporte', [PuntoEncuentroController::class, 'reporte'])->name('puntos.reporte');
 
@@ -102,9 +107,14 @@ Route::prefix('admin')->middleware('auth:admin')->name('admin.')->group(function
 
     Route::get('/mapa-zonas-riesgo', [RiesgoController::class, 'mapaPublico'])->name('publico.mapa_zonas_riesgo');
 
-
-
+    Route::get('/mapa-puntos-publico', [PuntoEncuentroController::class, 'mapaPublico'])
+        ->name('puntos.mapa.publico');
 });
+
+// mapas publicosdel QR
+Route::get('/mapa/puntos-publico', [PuntoEncuentroController::class, 'mapaPublicoQR'])->name('mapa.puntos.publico');
+Route::get('/mapa/riesgos-publico', [RiesgoController::class, 'mapaPublicoQR'])->name('mapa.riesgos.publico');
+Route::get('/mapa/zonas-seguras-publico', [zonaSeguraController::class, 'mapaPublico'])->name('mapa.zonasSeguras.publico');
 
 
 
